@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     background-color: #404040;
     color: white;
     height: 100%;
@@ -7,11 +8,71 @@ html, body {
 }
 
 .large-link {
-    font-size: 36pt;
+    font-size: 40pt;
+    color: white;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100%;
+    padding: 5px;
 }
 
 .fullscreen-div {
     width: 100%;
     height: 100%;
-    background-color: lightblue;
+    background-color: #404040;
+}
+
+.rounded-div {
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: 10px;
+    margin: 10px;
+    width: 30%;
+    height: 100%;
+    float: left;
+    display: flex;
+}
+
+img {
+    max-width: 90%;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.image-container {
+    text-align: center;
+}
+
+.link-div a {
+    position: relative;
+    z-index: 2;
+    display: block;
+    text-decoration: none;
+    height: 100%;
+}
+
+.link-div {
+    position: relative;
+    display: inline-block;
+    background-color: #404040;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
+
+.link-div::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.div-row {
+    display: flex;
 }
