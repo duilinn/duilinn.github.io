@@ -8,11 +8,10 @@ body {
 }
 
 .large-link {
-    font-size: 40pt;
+    font-size: 36pt;
     color: white;
     text-decoration: none;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    height: 100%;
     padding: 5px;
 }
 
@@ -75,4 +74,15 @@ img {
 
 .div-row {
     display: flex;
+}
+
+.div-text {
+    font-size: 12pt;
+    padding: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 20px;
 }
