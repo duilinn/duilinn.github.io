@@ -119,7 +119,7 @@ PHIL: Hello, a Mheáirt! M'anam muise gur tú atá go maith dhuit fhéin an t-am
 MEÁIRT: Mura bhfuil, tá dalladh giobsaireacht ag cailleachaí.
 
 04:47.500
-COLM: &num; James Connolly fell into a ready made grave &num; Meáirt a dhiabhail, tá an boc as an mbeairic fós! 
+COLM: &num; James Connolly fell into a ready made grave &num; Meáirt a dhiabhail, tá an boc thiar sa mbeairic fós! 
 
 04.59.300
 MEÁIRT: Cén boc? 
@@ -182,7 +182,7 @@ PHIL: Naoi... trí... haon, a ceathair, a ceathair.
 [DIAL TONE] 
 
 06:37.800
-PHIL: Hello? Hello a Pheggie, Phil atá ann. What? Ó, muise, diabhal mórán news ar an mbaile seo a Pheggie. Hah, fan go n-inseoidh mé dhuit. Bhí mé thuas ag an siopa tráthnóna. Siopa, a Winnie, cén sórt quiz??? worth??? Sea, a mh'anam, agus Meáirt Morris Pratt. Cripes, a Pheggie, tá Winnie go dona. Ó tá mé ag rá leat anois, ní ag magadh atá mé. Sílim go bhfuil sé ag fáil nervous breakdown. Ó ta a fhios agat go maith. Michael agus Helen. Hahaha, "love". Ach dá labhrófa ar an feic sin le Meáirt, cheapfadh sé gur ag caint ar Jayes Fluid a bhí tú. Ha, agus tá Bob Geldof le bheith ar an radio ag Mattie Joe Shéamais anocht. Ní... Colm? Yeah, Colm. Hahaha... Saturday Live...hahaha. An dtiocfaidh tú suas a Pheggie? Á, no, union meeting. Thusa, thusa ag cailleadh do jab?! Ó, nár chuire Dia an t-ádh uirthi fhéin is ar a chat???, an chailleach. Ó muise, stop. Is measa í seo ná Gemma. Craiceáilte. Craiceáilte atá siad a Pheggie. Múinteoirí ag marcháil ar fud na tíre de bharr an iomarca gasúir a bheith sa rang! Agus Bríd Ní Dhomhnaill ag marcháil thiar, de bharr nach bhfuil aon ghasúr ina rang! Ó anois. Bhuel, o...okay a Pheggie mar sin. Ach, ach eh tiocfaidh mé, séard a dhéanfas mé anois, tiocfaidh mé suas go dtí Winnie anocht. Ó, hahaha, ná bíodh imní ort, running commentary, hahaha, running commentary! Á, bye! Bye a Pheggie! Slán anois go fóill. 
+PHIL: Hello? Hello a Pheggie, Phil atá ann. What? Ó, muise, diabhal mórán news ar an mbaile seo a Pheggie. Hah, fan go n-inseoidh mé dhuit. Bhí mé thuas ag an siopa tráthnóna. Siopa, a Winnie, cén sórt quiz??? worth??? Sea, a mh'anam, agus Meáirt Morris Pratt. Cripes, a Pheggie, tá Winnie go dona. Ó tá mé ag rá leat anois, ní ag magadh atá mé. Sílim go bhfuil sí ag fáil nervous breakdown. Ó tá a fhios agat go maith. Michael agus Helen. Hahaha, "love". Ach dá labhrófa ar an feic sin le Meáirt, cheapfadh sé gur ag caint ar Jayes Fluid a bhí tú. Ha, agus tá Bob Geldof le bheith ar an radio ag Mattie Joe Shéamais anocht. Ní... Colm? Yeah, Colm. Hahaha... Saturday Live...hahaha. An dtiocfaidh tú suas a Pheggie? Á, no, union meeting. Thusa, thusa ag cailleadh do jab?! Ó, nár chuire Dia an t-ádh uirthi fhéin is ar a chat???, an chailleach. Ó muise, stop. Is measa í seo ná Gemma. Craiceáilte. Craiceáilte atá siad a Pheggie. Múinteoirí ag marcháil ar fud na tíre de bharr an iomarca gasúir a bheith sa rang! Agus Bríd Ní Dhomhnaill ag marcháil thiar, de bharr nach bhfuil aon ghasúr ina rang! Ó anois. Bhuel, o...okay a Pheggie mar sin. Ach, ach eh tiocfaidh mé, séard a dhéanfas mé anois, tiocfaidh mé suas go dtí Winnie anocht. Ó, hahaha, ná bíodh imní ort, running commentary, hahaha, running commentary! Á, bye! Bye a Pheggie! Slán anois go fóill. 
 
 08:38.500
 [INTERMISSION] 
@@ -268,7 +268,7 @@ COLM: Éist a dhiabhail a Phil, meas tú ab in é mó ghuth chor ar bith.
 10:24.700
 RADIO HOST: Ach uh, cén chaoi ar thaithnigh Ráth Chairn leat fhéin i mbliana, mar is í sin an chéad uair ariamh agat ann, ab é? 
 
-10:20.000
+10:30.000
 COLM [RADIO]: Á muise a mhac, leis an gceart a rá a Mhattie, thar cionn. Thar cionn amach is amach. Bhí leath Chonamara ann a dheartháir. Shílfeá gur i gConamara a bhí tú. Bhí Dara bán ann– 
 
 10:39.963
