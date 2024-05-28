@@ -193,7 +193,7 @@
 		}
 
 		function loadEpisode(episodeName) {
-			fetch("transcripts/" + episodeName + ".txt")
+			fetch("baile-an-droichid/transcripts/" + episodeName + ".txt")
 				.then(response => response.text())
 				.then((data) => {
 					// console.log(data.split("\n"));
@@ -236,7 +236,7 @@
 					var episodeTitle = document.getElementById("episode-title");
 					episodeTitle.innerHTML = `<h2>${episodeName.toUpperCase()}</h2>`;
 					var audioPlayer = document.getElementById("audio-player");
-					audioPlayer.src = "audio/" + episodeName + ".mp3";
+					audioPlayer.src = "baile-an-droichid/audio/" + episodeName + ".mp3";
 					audioPlayer.load();
 					audioPlayer.style.display = "block";
 
