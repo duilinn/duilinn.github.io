@@ -1,0 +1,70 @@
+<!doctype html>
+
+<head>
+    <title>RIA Corpus Search</title>
+    <script>
+        function generateGraph(result) {
+            maxValue = result.reduce((acc, cum) => Math.max(acc, cum), 0);
+            let svgGraph = document.getElementById("svgGraph");
+            svgGraph.innerHTML = "";
+            svgGraph.style.visibility = "visible";
+
+            svgGraph.insertAdjacentHTML("beforeend", `<rect id="rect1" x="49" y="-1" width="702" height="1" style="fill: gray" />`);
+            svgGraph.insertAdjacentHTML("beforeend", `<rect id="rect2" x="49" y="-1" width="1" height="101" style="fill: black" />`);
+            svgGraph.insertAdjacentHTML("beforeend", `<rect id="rect3" x="49" y="100" width="702" height="1" style="fill: black" />`);
+            svgGraph.insertAdjacentHTML("beforeend", `<rect id="rect4" x="750" y="-1" width="1" height="101" style="fill: black" />`);
+
+            svgGraph.insertAdjacentHTML("beforeend", `<text id="textMaxValue}"   x="${0}" y="5" style="fill: black; font-size: 6pt;">${Number(maxValue * 100).toString().slice(0, 10)}%</text>`);
+            result.forEach(
+                (x, i) => {
+                    let year = (1580 + (i * 10));
+                    let percentage = (maxValue > 0) ? ((x / maxValue) * 100) : 0;
+                    let yCoord = 100 - percentage;
+                    svgGraph.insertAdjacentHTML("beforeend", `<rect id="rect${i}" x="${20 * i + 50}" y="${yCoord}" width="20" height="${100 - yCoord}" style="fill: ${(i % 2) ? '#ff0000' : '#d00000'}"/>`);
+                    svgGraph.insertAdjacentHTML("beforeend", `<text id="text${i}" x="${20 * i + 50}" y="110" style="fill: black; font-size: 6pt;${((year % 50 == 0) ? 'font-weight: bold;' : '')}">${year}</text>`);
+                }
+            )
+        }
+
+        function getData() {
+            let searchQuery = document.getElementById("searchBox").value;
+            let searchTermDiv = document.getElementById("searchTerm");
+            searchTermDiv.innerHTML = searchQuery;
+
+            var xhttp = new XMLHttpRequest();
+            let url = "https://2-dot-spatial-tempo-386114.ew.r.appspot.com/corpasria?q=" + searchQuery;
+            // let url = "http://localhost:5001/corpasria?q=" + searchQuery;
+            
+            let options = {
+                mode: "cors",
+                headers: new Headers({ 'Access-Control-Allow-Origin': '*' })
+            }
+            fetch(url)
+                .then(res => res.json())
+                .then(out => {
+                    console.log('Checkout this JSON! ', out);
+                    generateGraph(out);
+                })
+                .catch(err => console.log(err));
+        }
+    </script>
+</head>
+
+<body>
+    <input id="searchBox"></input>
+    <button onclick="getData()"><b>Cuardaigh</b><br /><i>Search</i></button>
+    <br />
+    <b>Tabhair faoi deara gur féidir go dtógfadh sé seo suas le 20 soicind nuair nár cuardaíodh focal cheana.</b>
+    <br />
+    <i>Note that this may take up to 20 seconds where the word has not been previously searched.</i>
+    <hr />
+    <div id="searchTerm" style="font-size: 20pt"></div>
+    <br />
+    <svg id="svgGraph" viewBox="0 -1 1000 500" xmlns="http://www.w3.org/2000/svg" style="visibility: hidden">
+        <rect id="rect1" x="49" y="-1" width="702" height="1" style="fill: gray" />
+        <rect id="rect2" x="49" y="-1" width="1" height="101" style="fill: black" />
+        <rect id="rect3" x="49" y="100" width="702" height="1" style="fill: black" />
+        <rect id="rect4" x="750" y="-1" width="1" height="101" style="fill: black" />
+    </svg>
+
+</body>
