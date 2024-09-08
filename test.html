@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html><head><title>Corpas</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Description" content="Corpas Stairiúil na Gaeilge 1600 - 1926" />
+<meta name="Keywords" content="Dictionary, Irish Language" />
+<meta name="creator" content="Niall O'Leary www.nialloleary.ie" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="apple-touch-icon" href="img/icons/apple-icon.png">
+<link rel="apple-touch-icon" sizes="57x57" href="img/icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="img/icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="img/icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="img/icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="img/icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="img/icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="img/icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="img/icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" href="img/icons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="img/icons/android-icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="img/icons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="img/icons/favicon-16x16.png" sizes="16x16">
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+<!--[if lte IE 8]>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+<![endif]-->
+
+<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+ <style>
+body {
+background:#fffffa;padding:0px;margin:0px;color:#484d50;
+font-style: normal;
+font-variant: normal;
+font-weight: 300;
+font-stretch: normal;
+line-height: 1.8rem;
+font-family: 'Open Sans', Arial, sans-serif;
+//overflow:hidden;
+}
+
+label, a, td, legend {
+font-style: normal;
+font-variant: normal;
+font-weight: 300;
+font-stretch: normal;
+line-height: 1.4rem;
+font-family: 'Open Sans', Arial, sans-serif;
+}
+
+#results_table, #results_table_books, #results_table_periodicals {
+width:100%;
+}
+
+tr, td, th {
+border: 1px solid #aaaaaa;
+line-height:1.5em;
+}
+
+td, th, tr {
+margin: 0px;
+}
+
+#results_table td, #results_table_books td, #results_table_periodicals td {
+padding: 4px;
+}
+
+#results_table td a, #results_table_books td a, #results_table_periodicals td a {
+line-height:1.3em;
+}
+
+table {
+padding: 0px;
+border-spacing: 0px;
+}
+
+
+.searchform {margin-right:5px;}
+.searchform label, .searchform legend {display:block;float:left;clear:left;margin-top:5px;text-align:left;}
+.searchform .col-xs-6 {padding:0px;height:1.8em;min-width:10em;}
+.searchform .col-xs-6 label {padding-left:0px;}
+.searchform fieldset .col-xs-6 label {width:9em;}
+
+.searchform .col-xs-8 {padding:0px;height:1.8em;min-width:18em;}
+.searchform .col-xs-4 label {padding-left:0px;}
+.searchform fieldset .col-xs-4 label {min-width:9em;}
+.searchform .col-xs-4 {padding-left:0px;}
+.searchform fieldset {margin-top:0.5em;margin-bottom:0.5em;}
+
+
+.searchform .col-xs-7 label, .searchform .col-xs-7 legend {padding-left:1em;}
+.searchform fieldset .col-xs-7 label, .searchform fieldset .col-xs-7 legend {padding-left:0em;}
+.searchform fieldset .col-xs-7 {
+max-width:18em;
+}
+
+.searchform input, .searchform select {clear:right;margin-top:4px;min-width:20em;}
+.searchform fieldset input {min-width:1em;}
+
+
+h1 {
+font-size:2.5rem;
+}
+
+
+h2 {
+font-size: 2rem;
+}
+
+h3 {
+font-size: 1.5rem;
+}
+
+h4 {
+font-size: 1.2rem;
+}
+
+h2.hero {
+font-style: normal;
+font-variant: normal;
+font-weight: 300;
+font-stretch: normal;
+font-size: 4rem;
+line-height: 4.8rem;
+font-family: 'Open Sans', Arial, sans-serif;
+color: #fff;
+margin-bottom: 2.5rem;
+}
+
+.hero-slide {height:60vh;min-height:350px;max-height:350px;width:100%;background-size:cover;background-position:50% 50%;margin-bottom:1em;}
+.hero-slide .r-container,.hero-slide .messages,.hero-slide .listing .ctools-auto-submit-full-form>div,.listing .hero-slide .ctools-auto-submit-full-form>div{max-width:780px}
+.hero-slide p{font:300 2rem/3.2rem "Open Sans",Arial,sans-serif}
+.hero-overlay{width:100%;background:rgba(66,116,152,0.8);position:absolute;bottom:0;padding:20px 0}
+.short .hero-overlay{width:100%;height:100%;position:relative;background:transparent;padding:10px;bottom:auto}
+
+
+.project-overlay {
+    -x-system-font: none;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(66, 116, 152, 0.8);
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    bottom: 50px;
+    color: #fff;
+    font-family: "Open Sans",Arial,sans-serif;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-language-override: normal;
+    font-size: 2.1rem;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-synthesis: weight style;
+    font-variant-alternates: normal;
+    font-variant-caps: normal;
+    font-variant-east-asian: normal;
+    font-variant-ligatures: normal;
+    font-variant-numeric: normal;
+    font-variant-position: normal;
+    font-weight: 300;
+    left: 10px;
+    line-height: 3rem;
+    opacity: 0;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    transition-delay: 0s;
+    transition-duration: 200ms;
+    transition-property: all;
+    transition-timing-function: ease;
+    visibility: hidden;
+    z-index: 2;
+}
+
+.project-title {
+    -x-system-font: none;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #d1b551;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    bottom: 0;
+    font-family: Arial,sans-serif;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-language-override: normal;
+    font-size: 1.6rem;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-synthesis: weight style;
+    font-variant-alternates: normal;
+    font-variant-caps: normal;
+    font-variant-east-asian: normal;
+    font-variant-ligatures: normal;
+    font-variant-numeric: normal;
+    font-variant-position: normal;
+    font-weight: 400;
+    height: 50px;
+    left: 15px;
+    line-height: 1.3;
+    padding-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    position: absolute;
+    right: 15px;
+    text-align: center;
+    z-index: 3;
+    color:#ffffff;
+    max-width:396px;
+    text-shadow: 1px 1px #0a0a0a;
+}
+
+a .project-title {
+color:#ffffff;
+}
+
+img {
+    display: block;
+    height: auto;
+    //width: 100%;
+}
+
+#copyright {
+border:1px solid #bbbbbb;
+background: #eeeeee;
+font-size:0.8em;
+padding:1em;
+}
+
+ul#results_table li, ul.results_list li {
+display:inline;
+list-style:none;
+}
+
+h3.rt {
+line-height:1.5em;
+font-weight:bold;
+}
+
+table.rtable th {
+font-size:0.9em;
+font-weight:normal;
+}
+
+p.spinning_gif {
+text-align:center;
+width:100%;
+}
+
+p.spinning_gif img {
+width:13px;
+height:13px;
+display:block;
+margin:auto;
+clear:both;
+}
+
+.searchform fieldset {
+padding: 0px;
+clear:left;
+}
+
+.searchform legend {
+font-size: 1em;
+min-width:8em;
+width:8em;
+border-bottom:none;
+clear:left;
+}
+
+.fixed {position:fixed; top:50px; left:0; display:block; width:100%; background:#ffffff;z-index:100;border-bottom:1px solid #eeeeee;padding-left:1em;}
+
+
+.pagination {display:inline-block;padding-left:0;margin:20px 0;border-radius:4px}
+.pagination ul li{display:inline}
+.pagination ul li>a,.pagination>li>span{position:relative;float:left;padding:6px 12px;line-height:1.42857143;text-decoration:none;color:#2C4258;background-color:#fff;border:1px solid #ddd;margin-left:-1px}
+.pagination ul li:first-child>a,.pagination>li:first-child>span{margin-left:0;border-bottom-left-radius:4px;border-top-left-radius:4px}
+.pagination ul li:last-child>a,.pagination>li:last-child>span{border-bottom-right-radius:4px;border-top-right-radius:4px}
+.pagination ul li>a:hover,.pagination>li>span:hover,.pagination>li>a:focus,.pagination>li>span:focus{z-index:2;color:#121c25;background-color:#eee;border-color:#ddd}
+.pagination ul .active>a,.pagination>.active>span,.pagination>.active>a:hover,.pagination>.active>span:hover,.pagination>.active>a:focus,.pagination>.active>span:focus{z-index:3;color:#fff;background-color:#2C4258;border-color:#2C4258;cursor:default}
+.pagination ul .disabled>span,.pagination>.disabled>span:hover,.pagination>.disabled>span:focus,.pagination>.disabled>a,.pagination>.disabled>a:hover,.pagination>.disabled>a:focus{color:#777;background-color:#fff;border-color:#ddd;cursor:not-allowed}.pagination-lg>li>a,.pagination-lg>li>span{padding:10px 16px;font-size:18px;line-height:1.3333333}.pagination-lg>li:first-child>a,.pagination-lg>li:first-child>span{border-bottom-left-radius:6px;border-top-left-radius:6px}.pagination-lg>li:last-child>a,.pagination-lg>li:last-child>span{border-bottom-right-radius:6px;border-top-right-radius:6px}.pagination-sm>li>a,.pagination-sm>li>span{padding:5px 10px;font-size:12px;line-height:1.5}.pagination-sm>li:first-child>a,.pagination-sm>li:first-child>span{border-bottom-left-radius:3px;border-top-left-radius:3px}.pagination-sm>li:last-child>a,.pagination-sm>li:last-child>span{border-bottom-right-radius:3px;border-top-right-radius:3px}
+#main .pagination a,main .pagination a{text-decoration:none}
+
+#results_table_books {display:block;}
+#results_table_periodicals {display:none;}
+
+.btn-warning:hover, .btn-warning:focus,
+.btn-warning:active, .btn-warning.active,
+.open .dropdown-toggle.btn-warning, .btn-warning,
+.result-navigation .btn {
+background-color: #d5b349;
+border:1px solid #ab8f3b;
+}
+
+.result-navigation .btn {
+color: #ffffff;
+margin-left:1.5em;
+margin-right:1.5em;
+}
+
+.btn-default:focus {
+background-color: #ffffff;
+}
+
+#prosepoetry {
+//display:block;
+//width:10em;
+//float:left;
+//margin-left:4em;
+//margin-bottom:0.5em;
+//padding-top:0.5em;
+}
+
+#prosepoetry label {
+//min-width:9em;
+//max-width:9em;
+margin-top:1px;
+}
+
+#prosepoetry input {
+margin-top:2px;
+margin-bottom:4px;
+}
+
+.searchheading {
+font-size:1.2em;
+padding-left:0px;
+margin-left:-1em;
+}
+
+.resultsheading {
+font-weight:bold;
+}
+
+.exhibit-tabularView-body th, .exhibit-tabularView-body td {
+padding:0.5em;
+}
+
+.exhibit-facet-value-checkbox {
+height:5px;
+}
+
+.navbar-nav li a {
+font-weight:bold;
+}
+
+.footer {
+margin-top:1em;
+padding-top:1em;
+border-top:1px solid #eeeeee;
+}
+
+.footer img {
+padding-top:1em;
+}
+
+.cc_notice {
+font-size:0.6em;
+font-style:italics;
+}
+
+.navbar-btn {
+color:#ffffff;
+background-color: #C0C0C0;
+}
+
+.result-navigation form {
+display:inline;
+}
+
+.result-navigation form .btn {
+margin-top:0.5em;
+}
+
+
+body {
+max-width: 100%;
+overflow-x: hidden;
+}
+
+/*Styles for screen 993px and lower*/
+@media only screen and (max-width : 993px) {
+.searchheading {margin-left:1em;}
+.searchform {margin-left:2em;}
+.fixed {display:none;}
+}
+
+/*Styles for screen 768px and lower*/
+@media only screen and (max-width : 768px) {
+//.fixed {display:none;}
+}
+
+/*Styles for screen 460px and lower*/
+@media only screen and (max-width : 480px) {
+
+.searchform input#yearrange {
+min-width:7em;
+max-width:7em;
+width:7em;
+}
+
+}
+
+
+
+</style>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+<script> $(function() {
+
+        $( "#slider-range" ).slider({
+                range: true,
+                min: 1600,
+                max: 1926,
+                values: [ 1600, 1926 ],
+                slide: function( event, ui ) {
+
+                        $( "#yearrange" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                        $( "#years_range" ).val( ui.values[ 0 ] + "-" + ui.values[ 1 ] );
+
+                        }
+                });
+
+        $( "#yearrange" ).val( $( "#slider-range" ).slider( "values", 0 ) +
+        " - " + $( "#slider-range" ).slider( "values", 1 ) );
+
+
+        $(window).scroll(function(){
+
+                  var scrollHeight;
+
+                  if ($(window).width() < 468)
+                        {
+                        scrollHeight = 250 * 1;
+                        }
+                  else if ($(window).width() < 768)
+                        {
+                        scrollHeight = 200 * 1;
+                        }
+                  else
+                        {
+                        scrollHeight = 135 * 1;
+                        }
+
+                  if ($(this).scrollTop() > scrollHeight) {
+                          $('#fixed_title').addClass('fixed');
+                  } else {
+                          $('#fixed_title').removeClass('fixed');
+                  }
+          });
+
+//Table sorting
+$('th').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+
+        $("div#books_periodicals div button").click(function(){
+        $( "#books_button" ).toggleClass( "btn-default");
+        $( "#books_button" ).toggleClass( "btn-warning");
+        $( "#periodicals_button" ).toggleClass( "btn-default");
+        $( "#periodicals_button" ).toggleClass( "btn-warning");
+        $( "#results_table_books" ).toggle();
+        $( "#results_table_periodicals" ).toggle();
+        });
+
+//Stop all ajax calls
+        var xhrQueue = [];
+
+        $(document).ajaxSend(function(event,jqxhr,settings){
+                xhrQueue.push(jqxhr); //alert(settings.url);
+        });
+
+        $(document).ajaxComplete(function(event,jqxhr,settings){
+                var i;
+                if((i=$.inArray(jqxhr,xhrQueue)) > -1){
+                        xhrQueue.splice(i,1); //alert("C:"+settings.url);
+                }
+        });
+
+        ajaxAbort = function (){
+                var i=0;
+                while(xhrQueue.length){
+                        xhrQueue[i++] .abort(); //alert(i+":"+xhrQueue[i++]);
+                }
+        };
+
+        $('#previousresultsbutton').on('click', ajaxAbort);
+        $('#nextresultsbutton').on('click', ajaxAbort);
+
+        function checkDisplayWordType(){
+                if ($('#fsg_classid option:selected').val() == 'P')
+                        {
+                        $( "#fsg_pos_rowid" ).hide();
+                        }
+                else
+                        {
+                        $( "#fsg_pos_rowid" ).show();
+                        }
+                }
+
+        $('#fsg_classid').on('change', checkDisplayWordType);
+
+        $('#language_change').submit(function(){
+        var hash = $(location).attr('hash');
+        if(hash.length > 0)
+                {
+                var hash_input = jQuery('<input name="fsg_hash_value" id="fsg_hash_valueid" value="' + hash + '">');
+                $('#language_change').append(hash_input);
+                }
+        });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                        sURLVariables = sPageURL.split('&'),
+                        sParameterName,
+                        i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                        sParameterName = sURLVariables[i].split('=');
+
+                        if (sParameterName[0] === sParam) {
+                                return sParameterName[1] === undefined ? true : sParameterName[1];
+                        }
+                }
+        };
+
+
+
+        function checkURLForHash(){
+        var hash = getUrlParameter('fsg_hash_value');
+        if(hash.length > 0)
+                {
+                var newurl = String($(location).attr('href'));
+                newurl = newurl.replace("&fsg_hash_value=%23","#");
+                window.location.href = newurl;
+                }
+        }
+
+        checkDisplayWordType();
+        checkURLForHash();
+
+        });
+
+</script>
+
+</head><body><div class="hero-slide" style="color:#ffffff;text-align:center;background-image: url(img/corpas_banner.png);">
+ <h2 class="hero" style="padding-top:110px;">Historical Irish Corpus<br />1600 - 1926</h2>
+</div>
+<div id="page" class="container-fluid"><nav class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#siteNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+<div class="collapse navbar-collapse" id="siteNavbar">
+<ul class="nav navbar-nav">
+        <li><a href="https://www.ria.ie/research-projects/focloir-stairiuil-na-gaeilge">Historical Dictionary of Irish</a></li>
+        <li><a href="index.php?fsg_function=0">Search the corpus</a></li>
+        <li><a href="index.php?fsg_function=1">Browse the Text Archive 1600-1926</a></li>
+        <!--<li><a href="index.php?fsg_function=9">Find a Word</a></li>
+        <li><a href="http://irisleabharnagaedhilge.fng.ie/">Irisleabhar na Gaedhilge</a></li>
+        <li><a href="http://focailfholaithe.fng.ie/">Focail Fholaithe</a></li>-->
+</ul>
+<ul class="nav navbar-nav navbar-right"> <li style="margin-right:2em;padding-left:10px;padding-bottom:0px;margin-bottom:-10px;">
+  <form action="index.php" method="GET" id="language_change"><input type="hidden" name="fsg_word" value="cuid" /><input type="hidden" name="fsg_lang" value="g" /><input type="submit" class="btn navbar-btn" value="Gaeilge/Béarla" /></form></li></ul>
+</div>
+</nav><div class="row"><div class="col-md-2"></div><div class="col-md-4" style="padding:2em;padding-top:0em;"><h2>Welcome to the Historical Irish Corpus.</h2>
+<p>You can search here for words and phrases in a range of over 3000 texts published in Irish between 1600 and 1926. Search results can be selected and words and phrases can be read in the context in which they were originally written.</p>
+<h3><em>Which type of search?</em></h3>
+<p>A <u>Headword</u> search will return results based on a lemma, and these will include all forms of that word eg. a search for <em>bád</em> will return <em>bád</em> but also <em>bhád</em>, <em>bhádaibh</em>, <em>mbáid</em>, <em>báduighe</em>, <em>báidín</em>, <em>droch-bhád</em> and many other forms, through that single lemma search. The ‘word type’ (part of speech) can also be set, if desired.</p>
+<p>A <u>Standard</u> search will return results based on a standardised search-term eg. a search for <em>déanann</em> will return <em>déanann</em> but also <em>deunann</em>, <em>do ghní</em>, <em>do ghnídh</em> etc.</p>
+<p>An <u>Exact Match</u> search will return results which match exactly the search-term entered.</p>
+<p><strong style="color:#dd0000">*NEW*</strong> A <u>Phrase</u> search can be conducted for phrases or strings in the corpus and works similarly to the exact match function. It should be noted that spaces, including at the beginning of the search term will be counted as characters. <a href="index.php?fsg_function=17">You can read more about the ‘phrase search’ function here.</a></p>
+<h3><em>Contact us</em></h3>
+<p>Please contact us at <a href="mailto:fng@ria.ie">fng@ria.ie</a> if you would like to find out more about the corpus or the <a href="https://www.ria.ie/research-projects/focloir-stairiuil-na-gaeilge">Historical Dictionary Project</a>, or if you have comments and feedback on the site.<p></div><div class="col-md-4"><div class="row"><div class="col-xs-12"><h3 class="searchheading">Search Texts</h3></div></div><form method="GET" action="index.php" class="searchform"><div class="row" style="height:3em;"><div class="col-xs-4"><label for="fsg_wordid" style="font-weight:bold;min-width:11em;padding-top:4px;">Enter word/phrase</label> </div><div class="col-xs-8"><input type="text" id="fsg_wordid" name="fsg_word" value="cuid" maxlength="100" style="min-width:20em;" /></div></div><div class="row"><div class="col-xs-4"><label for="fsg_classid">Search Type</label> </div><div class="col-xs-8"><select id="fsg_classid" name="fsg_class" style="width:10em;"><option value="L">Headword</option><option value="S">Standardised</option><option value="W" selected="selected">Exact match</option><option value="P">Phrase</option></select></div></div><div class="row" id="fsg_pos_rowid"><div class="col-xs-4"><span style="font-size:0.9em;"><label for="fsg_posid">Word Type</label> </div><div class="col-xs-8"><select id="fsg_posid" name="fsg_pos" style="width:10em;"><option value="All" selected="selected">All</option><option value="A">Adjective</option><option value="N">Noun</option><option value="S">Preposition</option><option value="P">Pronoun</option><option value="V">Verb</option><option value="Nv">Verbal Noun</option></select></div></div><fieldset><div class="row"><div class="col-xs-4"><legend for="fsg_classid">Poetry/Prose</legend> </div><div class="col-xs-8"><div class="row"><div class="col-xs-7"><label for="fsg_ppid1">Both</label></div><div class="col-xs-2"><input type="radio" id="fsg_ppid1" name="fsg_pp" value="Both" checked="checked" /></div><div class="col-xs-1" style="float:left;"></div></div></div></div><div class="row"><div class="col-xs-4"></div><div class="col-xs-8"><div class="row"><div class="col-xs-7"><label for="fsg_ppid2">Prose</label></div><div class="col-xs-2"><input type="radio" id="fsg_ppid2" name="fsg_pp" value="Prose" /></div><div class="col-xs-1" style="float:left;"></div></div></div></div><div class="row"><div class="col-xs-4"></div><div class="col-xs-8"><div class="row"><div class="col-xs-7"><label for="fsg_ppid3">Poetry</label></div><div class="col-xs-2"><input type="radio" id="fsg_ppid3" name="fsg_pp" name="fsg_pp" value="Poetry" /></div><div class="col-xs-1" style="float:left;"></div></div></div></div></fieldset><input type="hidden" id="years_range" name="fsg_years" value="1600-1926" /><div class="row"><div class="col-xs-6"><label for="slider-range">Set Dates</label></div><div class="col-xs-6"><input type="text" id="yearrange" readonly style="border:0; color:#d5b349; font-weight:bold;" /></div><div class="col-xs-1"></div></div><div class="row"><div class="col-xs-12" style="padding-left:0px;"><div id="slider" style="border:1px solid black;width:94%;">
+        <div id="slider-range" style="display:block;"></div>
+        <div id="slider-range-block" style="display:block;">
+        <span style="float:left;">1600</span>
+        <span style="float:right;">1926</span>
+        </div>
+        </div></div></div><input type="hidden" id="fsg_functionid" name="fsg_function" value="10" /></span><div class="row"><div class="col-xs-11"><div style="text-align:center;"><input type="submit" id="search_button" value="Search" /></div></div><div class="col-xs-1"></div></div></form></div><div class="col-md-2"></div></div><div class="footer"><div class="row"><div class="col-sm-2"></div><div class="col-sm-4"><a href="https://www.chg.gov.ie/" target="_blank"><img alt="Department of Culture, Heritage and the Gaeltacht" src="img/chg.png" style="max-width:250px;" class="img-responsive center-block" /></a></div><div class="col-sm-4"><a href="https://www.taoiseach.gov.ie/irish/Foilseach%C3%A1in/Foilseach%C3%A1in_2014/An_Strait%C3%A9is_20_Bliain_don_Ghaeilge_2010-2030.html" target="_blank"><img src="img/s20.png" alt="Straitéis 20 Bliain don Ghaeilge" style="max-width:250px;" class="img-responsive center-block" /></a></div></div><div class="col-sm-2"></div></div></div><div class="row" style="margin-top:1.5em;"><div class="col-xs-2"></div><div class="col-xs-4 text-right" style="font-size:0.7em;margin-top:0.3em;margin-right:0px;border-right:1px solid #eeeeee;">19 Dawson Street, Dublin 2<br />D02 HH58 +353 1 676 2570 info@ria.ie</div><div class="col-xs-4 text-left" style="padding-left:0px;margin-left:0px;"><a href="https://www.ria.ie/" target="_blank"><img alt="Royal Irish Academy" src="img/ria.png" style="float:left;max-width:188px;" class="img-responsive center-block" /></a></div></div><div class="col-xs-2"></div></div><div class="row"><div class="col-xs-12 text-center"><a style="font-weight:strong;font-size:0.7em;color:#000000" href="index.php?fsg_function=18">Cookie Use</a></div></div><div class="row"><div class="col-xs-12 text-center" style="font-size:0.5em;"><a href="http://www.nialloleary.ie">Website developed by Niall O'Leary Services</a></div></div></div></div></body></html>'

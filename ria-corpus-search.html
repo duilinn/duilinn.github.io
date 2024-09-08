@@ -2,6 +2,7 @@
 
 <head>
     <title>RIA Corpus Search</title>
+    <meta charset="utf-8" />
     <script>
         function generateGraph(result) {
             maxValue = result.reduce((acc, cum) => Math.max(acc, cum), 0);
@@ -31,32 +32,70 @@
             let searchTermDiv = document.getElementById("searchTerm");
             searchTermDiv.innerHTML = searchQuery;
 
+            let svgGraph = document.getElementById("svgGraph");
+            svgGraph.innerHTML = "";
+            svgGraph.style.visibility = "hidden";
+
             var xhttp = new XMLHttpRequest();
-            let url = "https://2-dot-spatial-tempo-386114.ew.r.appspot.com/corpasria?q=" + searchQuery;
-            // let url = "http://localhost:5001/corpasria?q=" + searchQuery;
-            
+            let url = "https://ria-corpus-graph.ew.r.appspot.com/?q=" + searchQuery;
+            // let url = "http://localhost:8080/?q=" + searchQuery;
+
             let options = {
-                mode: "cors",
+                // mode: "cors",
+                dataType: "text",
                 headers: new Headers({ 'Access-Control-Allow-Origin': '*' })
             }
+
             fetch(url)
-                .then(res => res.json())
+                .then(res => res.text())
                 .then(out => {
-                    console.log('Checkout this JSON! ', out);
-                    generateGraph(out);
+                    console.log('Checkout this JSON! ', JSON.parse(out));
+                    generateGraph(JSON.parse(out));
                 })
-                .catch(err => console.log(err));
+                .catch((err) => console.log(err));
         }
+
+        window.addEventListener('load', function () {
+            var input = document.getElementById("searchBox");
+
+            // Execute a function when the user presses a key on the keyboard
+            input.addEventListener("keypress", function (event) {
+                // If the user presses the "Enter" key on the keyboard
+                if (event.key === "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    document.getElementById("searchButton").click();
+                }
+            });
+        })
     </script>
+    <style>
+        h3 {
+            font-weight: normal;
+        }
+
+        button,
+        input {
+            font-family: serif;
+            font-size: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <input id="searchBox"></input>
-    <button onclick="getData()"><b>Cuardaigh</b><br /><i>Search</i></button>
+    <h1>Cuardaigh Corpas Stairiúil Gaeilge an RIA</h1>
+    <h3><i>Search the RIA's Historical Irish Corpus</i></h3>
     <br />
-    <b>Tabhair faoi deara gur féidir go dtógfadh sé seo suas le 20 soicind nuair nár cuardaíodh focal cheana.</b>
+    <div>
+        <input id="searchBox" style="min-height: 100%"></input>
+        <button id="searchButton" onclick="getData()"><b>Cuardaigh</b> / <i>Search</i></button>
+    </div>
     <br />
-    <i>Note that this may take up to 20 seconds where the word has not been previously searched.</i>
+    <br />
+    <b>Dá choitianta focal is ea is faide a thógfas sé na torthaí a fháil!</b>
+    <br />
+    <i>Time taken to get results for a word is inversely proportional to the word's frequency.</i>
     <hr />
     <div id="searchTerm" style="font-size: 20pt"></div>
     <br />
@@ -66,5 +105,6 @@
         <rect id="rect3" x="49" y="100" width="702" height="1" style="fill: black" />
         <rect id="rect4" x="750" y="-1" width="1" height="101" style="fill: black" />
     </svg>
-
 </body>
+
+</html>
