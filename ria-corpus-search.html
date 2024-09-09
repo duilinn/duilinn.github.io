@@ -27,22 +27,27 @@
             )
         }
 
-        function getData() {
+        function loadDataPage() {
             let searchQuery = document.getElementById("searchBox").value;
-            let searchTermDiv = document.getElementById("searchTerm");
-            searchTermDiv.innerHTML = searchQuery;
 
             let useRegex = "false";
             if (document.getElementById('useRegex').checked) {
                 useRegex = "true";
             }
 
+            window.location.href = `${window.location.href.split("?q=")[0]}?q=${searchQuery}&regex=${useRegex}`;
+        }
+        function getData(params) {
+            
             let svgGraph = document.getElementById("svgGraph");
             svgGraph.innerHTML = "";
             svgGraph.style.visibility = "hidden";
 
+            let searchTermDiv = document.getElementById("searchTerm");
+            searchTermDiv.innerHTML = params.get("q");
+
             var xhttp = new XMLHttpRequest();
-            let url = "https://ria-corpus-graph.ew.r.appspot.com/?q=" + searchQuery + "&regex=" + useRegex;
+            let url = "https://ria-corpus-graph.ew.r.appspot.com/?q=" + params.get("q") + "&regex=" + params.get("regex");
             // let url = "http://localhost:8080/?q=" + searchQuery;
 
             let options = {
@@ -62,6 +67,11 @@
 
         window.addEventListener('load', function () {
             var input = document.getElementById("searchBox");
+
+            let params = new URL(document.location.toString()).searchParams;
+            if (params.toString() != "") {
+                getData(params);
+            }
 
             // Execute a function when the user presses a key on the keyboard
             input.addEventListener("keypress", function (event) {
@@ -100,7 +110,7 @@
         <input id="searchBox" style="min-height: 100%"></input>
         <input id="useRegex" type="checkbox"></input> <label for="useRegex"><b>Úsáid regex</b> / <i>Use regex</i></label>
         <br/>
-        <button id="searchButton" onclick="getData()"><b>Cuardaigh</b> / <i>Search</i></button>
+        <button id="searchButton" onclick="loadDataPage()"><b>Cuardaigh</b> / <i>Search</i></button>
     </div>
     <br />
     <br />
