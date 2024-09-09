@@ -28,7 +28,7 @@
         }
 
         function loadDataPage() {
-            let searchQuery = document.getElementById("searchBox").value;
+            let searchQuery = encodeURIComponent(document.getElementById("searchBox").value);
 
             let useRegex = "false";
             if (document.getElementById('useRegex').checked) {
@@ -38,7 +38,7 @@
             window.location.href = `${window.location.href.split("?q=")[0]}?q=${searchQuery}&regex=${useRegex}`;
         }
         function getData(params) {
-            
+            document.getElementById("searchBox").value = decodeURIComponent(params.get("q"))
             let svgGraph = document.getElementById("svgGraph");
             svgGraph.innerHTML = "";
             svgGraph.style.visibility = "hidden";
@@ -47,8 +47,8 @@
             searchTermDiv.innerHTML = params.get("q");
 
             var xhttp = new XMLHttpRequest();
-            let url = "https://ria-corpus-graph.ew.r.appspot.com/?q=" + params.get("q") + "&regex=" + params.get("regex");
-            // let url = "http://localhost:8080/?q=" + searchQuery;
+            let url = "https://ria-corpus-graph.ew.r.appspot.com/?q=" + encodeURIComponent(params.get("q")) + "&regex=" + params.get("regex");
+            // let url = "http://localhost:8080/?q=" + encodeURIComponent(params.get("q")) + "&regex=" + params.get("regex");
 
             let options = {
                 // mode: "cors",
