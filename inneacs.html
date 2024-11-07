@@ -8,7 +8,10 @@
             font-family: mionchlo;
             src: url("fonts/mionchlo.otf") format("opentype");
         }
-
+        @font-face {
+            font-family: fraktur;
+            src: url("fonts/UnifrakturCook-Bold.ttf") format("opentype");
+        }
         body {
             background-image: url("images/background RIA_MS_24_P_23p7.png");
             font-family: mionchlo;
@@ -16,6 +19,21 @@
             font-size: 1.5em;
             margin: 50px;
             /*            color: #70614cd0; */
+        }
+
+        code {
+            font-family: fraktur;
+        }
+
+        .roman {
+            font-family: 'serif';
+        }
+        a {
+            color: darkgoldenrod;
+        }
+
+        a:hover {
+            color: #6d5008;
         }
     </style>
     <script>
@@ -47,7 +65,8 @@
                 .replaceAll("SH", "Ṡ")
                 .replaceAll("th", "ṫ")
                 .replaceAll("Th", "Ṫ")
-                .replaceAll("TH", "Ṫ");
+                .replaceAll("TH", "Ṫ")
+                .replaceAll("£", "");
         }
         function replaceHs() {
 
@@ -56,7 +75,11 @@
                     el.innerHTML = replaceHsString(el.innerHTML)
 
                 });
+                [...document.getElementsByTagName("h1")].forEach(
+                (el) => {
+                    el.innerHTML = replaceHsString(el.innerHTML)
 
+                });
             [...document.getElementsByTagName("h2")].forEach(
                 (el) => {
                     el.innerHTML = replaceHsString(el.innerHTML)
@@ -67,8 +90,12 @@
 </head>
 
 <body onload="replaceHs()">
+    <h1>Suidheamh Dhuibhlinn</h1>
     <div>
-        <h2> Graif stáireamhla de chuid Chorpas Staireamhail na Gaedhilge</h2>
+        <p class="roman">Para la versión anglosajona mire <a href="index.html">aquid£he</a></p>
+    </div>
+    <div>
+        <h2><a href="ria-corpus-search.html">Graif stáireamhla de chuid Chorpas Staireamhail na Gaedhilge</a></h2>
         <p>
             Cuardaigh Corpas Staireamhail na Gaedhilge (c. 1580-1926) agus gin graif de mhinicidheacht focal do réir
             ama, ar nós
@@ -81,8 +108,42 @@
             Déanta le Python ⁊ JS.
         </p>
     </div>
-    
-
+    <div>
+        <h2><a href="duchas-maps.html">Léarscáileanna Dúchais</a></h2>
+        <p>
+            Cuardaigh os cionn trí chéad míle leathanach de bhéaloideas na hÉireann a bhailíodh sna 1930í, i mBéarla
+            agus i nGaeilge, agus breathnaigh ar thorthaí do chuid iarratas ar léarscáil.
+        </p>
+        <p>
+            © Cnuasach Bhéaloideas Éireann, UCD
+        </p>
+        <p>
+            Déanta le React, Node.js ⁊ Leaflet.
+        </p>
+    </div>
+    <div>
+        <h2><a href="tomhais-an-contae.html">Tomhais an Contae</a></h2>
+        <p>
+            An iontráil a ghnóthaigh Féile Haiceala 2023 in DCU. Tugtar mír duit as Cnuasach Bhéaloideas Éireann agus tá
+            ort a thomhais cén áit a scríobhadh an mhír, trí chanúint agus logainmneacha a thomhais.
+        </p>
+        <p>
+            © Cnuasach Bhéaloideas Éireann, UCD
+        </p>
+        <p>
+            Déanta le React ⁊ Node.js.
+        </p>
+    </div>
+    <div>
+        <h2>Tionscadal na Bliana Deireanaí</h2>
+        <p>
+            Déantar annso sansaidheacht roinnt focal de chuid an <code>Oxford Englis£h Dictionary</code> a thaispeáint ar
+            léarscáil, chum foclaibh don fhréimh chéadna i dteangachaibh éagsúla do léiriughadh.
+        </p>
+        <p>
+            Déanta le Python, Folium ⁊ Leaflet.
+        </p>
+    </div>
 </body>
 
 </html>
