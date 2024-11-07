@@ -18,9 +18,38 @@
             background-image: url("images/background RIA_MS_24_P_23p7.png");
             font-family: mionchlo;
             color: #292218d0;
-            font-size: 1.2em;
             margin: 50px;
             /*            color: #70614cd0; */
+        }
+
+        /* if device has a touch screen */
+        @media (any-pointer: coarse) {
+            body {
+                font-size: 1.5em;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            h2 {
+                font-size: 2em;
+            }
+        }
+
+        /* if device has no touch screen */
+        @media (any-pointer: fine) {
+            body {
+                font-size: 1.2em;
+            }
+
+            h1 {
+                font-size: 3em;
+            }
+
+            h2 {
+                font-size: 2em;
+            }
         }
 
         code {
