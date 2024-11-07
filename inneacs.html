@@ -18,7 +18,7 @@
             background-image: url("images/background RIA_MS_24_P_23p7.png");
             font-family: mionchlo;
             color: #292218d0;
-            font-size: 1.5em;
+            font-size: 1.2em;
             margin: 50px;
             /*            color: #70614cd0; */
         }
@@ -76,7 +76,7 @@
             [...document.getElementsByTagName("p")].forEach(
                 (el) => {
                     if (!el.classList.contains("ignore")) {
-                    el.innerHTML = replaceHsString(el.innerHTML)
+                        el.innerHTML = replaceHsString(el.innerHTML)
                     }
                 });
             [...document.getElementsByTagName("h1")].forEach(
