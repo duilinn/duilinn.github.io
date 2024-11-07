@@ -8,10 +8,12 @@
             font-family: mionchlo;
             src: url("fonts/mionchlo.otf") format("opentype");
         }
+
         @font-face {
             font-family: fraktur;
             src: url("fonts/UnifrakturCook-Bold.ttf") format("opentype");
         }
+
         body {
             background-image: url("images/background RIA_MS_24_P_23p7.png");
             font-family: mionchlo;
@@ -28,6 +30,7 @@
         .roman {
             font-family: 'serif';
         }
+
         a {
             color: darkgoldenrod;
         }
@@ -72,10 +75,11 @@
 
             [...document.getElementsByTagName("p")].forEach(
                 (el) => {
+                    if (!el.classList.contains("ignore")) {
                     el.innerHTML = replaceHsString(el.innerHTML)
-
+                    }
                 });
-                [...document.getElementsByTagName("h1")].forEach(
+            [...document.getElementsByTagName("h1")].forEach(
                 (el) => {
                     el.innerHTML = replaceHsString(el.innerHTML)
 
@@ -94,6 +98,9 @@
     <div>
         <p class="roman">Para la versión anglosajona mire <a href="index.html">aquid£he</a></p>
     </div>
+
+    <hr>
+
     <div>
         <h2><a href="ria-corpus-search.html">Graif stáireamhla de chuid Chorpas Staireamhail na Gaedhilge</a></h2>
         <p>
@@ -107,7 +114,13 @@
         <p>
             Déanta le Python ⁊ JS.
         </p>
+        <p>
+            Nasc GitHub (le teacht)
+        </p>
     </div>
+
+    <hr>
+
     <div>
         <h2><a href="duchas-maps.html">Léarscáileanna Dúchais</a></h2>
         <p>
@@ -120,7 +133,13 @@
         <p>
             Déanta le React, Node.js ⁊ Leaflet.
         </p>
+        <p class="ignore">
+            <a href="https://github.com/duilinn/irish-word-distribution-maps">Nasc GitHub</a>
+        </p>
     </div>
+
+    <hr>
+
     <div>
         <h2><a href="tomhais-an-contae.html">Tomhais an Contae</a></h2>
         <p>
@@ -133,15 +152,25 @@
         <p>
             Déanta le React ⁊ Node.js.
         </p>
+        <p class="ignore">
+            <a href="https://github.com/duilinn/feile-haiceala-2023">Nasc GitHub</a>
+        </p>
     </div>
+
+    <hr>
+
     <div>
         <h2>Tionscadal na Bliana Deireanaí</h2>
         <p>
-            Déantar annso sansaidheacht roinnt focal de chuid an <code>Oxford Englis£h Dictionary</code> a thaispeáint ar
+            Déantar annso sansaidheacht roinnt focal de chuid an <code>Oxford Englis£h Dictionary</code> a thaispeáint
+            ar
             léarscáil, chum foclaibh don fhréimh chéadna i dteangachaibh éagsúla do léiriughadh.
         </p>
         <p>
             Déanta le Python, Folium ⁊ Leaflet.
+        </p>
+        <p class="ignore">
+            <a href="https://github.com/duilinn/final-year-project-2023">Nasc GitHub</a>
         </p>
     </div>
 </body>
