@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+    <title></title>
+    <style>
+        @font-face {
+            font-family: mionchlo;
+            src: url("fonts/mionchlo.otf") format("opentype");
+        }
+
+        body {
+            background-image: url("images/background RIA_MS_24_P_23p7.png");
+            font-family: mionchlo;
+            color: #292218d0;
+            font-size: 1.5em;
+            margin: 50px;
+            /*            color: #70614cd0; */
+        }
+    </style>
+    <script>
+        function replaceHsString(str) {
+            return str
+                .replaceAll("bh", "ḃ")
+                .replaceAll("Bh", "Ḃ")
+                .replaceAll("BH", "Ḃ")
+                .replaceAll("ch", "ċ")
+                .replaceAll("Ch", "Ċ")
+                .replaceAll("CH", "Ċ")
+                .replaceAll("dh", "ḋ")
+                .replaceAll("Dh", "Ḋ")
+                .replaceAll("DH", "Ḋ")
+                .replaceAll("fh", "ḟ")
+                .replaceAll("Fh", "Ḟ")
+                .replaceAll("FH", "Ḟ")
+                .replaceAll("gh", "ġ")
+                .replaceAll("Gh", "ġ")
+                .replaceAll("GH", "Ġ")
+                .replaceAll("mh", "ṁ")
+                .replaceAll("Mh", "Ṁ")
+                .replaceAll("MH", "Ṁ")
+                .replaceAll("ph", "ṗ")
+                .replaceAll("Ph", "Ṗ")
+                .replaceAll("PH", "Ṗ")
+                .replaceAll("sh", "ṡ")
+                .replaceAll("Sh", "Ṡ")
+                .replaceAll("SH", "Ṡ")
+                .replaceAll("th", "ṫ")
+                .replaceAll("Th", "Ṫ")
+                .replaceAll("TH", "Ṫ");
+        }
+        function replaceHs() {
+
+            [...document.getElementsByTagName("p")].forEach(
+                (el) => {
+                    el.innerHTML = replaceHsString(el.innerHTML)
+
+                });
+
+            [...document.getElementsByTagName("h2")].forEach(
+                (el) => {
+                    el.innerHTML = replaceHsString(el.innerHTML)
+
+                });
+        }
+    </script>
+</head>
+
+<body onload="replaceHs()">
+    <div>
+        <h2> Graif stáireamhla de chuid Chorpas Staireamhail na Gaedhilge</h2>
+        <p>
+            Cuardaigh Corpas Staireamhail na Gaedhilge (c. 1580-1926) agus gin graif de mhinicidheacht focal do réir
+            ama, ar nós
+            amharcóir Google NGrams.
+        </p>
+        <p>
+            © 2024 RIA faoin gceadúnas CC BY-NC-ND 3.0
+        </p>
+        <p>
+            Déanta le Python ⁊ JS.
+        </p>
+    </div>
+    
+
+</body>
+
+</html>
