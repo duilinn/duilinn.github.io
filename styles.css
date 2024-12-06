@@ -7,6 +7,15 @@ body {
     padding: 0;
 }
 
+html.lightmode,
+body.lightmode {
+    background-color: white;
+    color: black;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .large-link {
     font-size: 34pt;
     color: white;
@@ -82,7 +91,8 @@ img {
     display: block;
 }
 
-.div-text, .div-programming-languages {
+.div-text,
+.div-programming-languages {
     font-size: 12pt;
     padding: 10px;
     margin-top: 15px;
@@ -101,4 +111,68 @@ h5,
 h6 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding: 20px;
+}
+
+button {
+    background-color: #ffffff;
+    color: black;
+    /* border-radius: 10px; */
+    border-width: 1px;
+    /* border-width: 0px; */
+    padding: 0px;
+    min-width: 50px;
+}
+
+.main-container {
+    display: flex;
+    height: 100%;
+    width:
+}
+
+.main-sidebar {
+    width: 30%;
+}
+.main-window {
+    width: 40%;
+    height: 100%;
+    overflow:scroll;
+}
+.main-map {
+    /* font-size: 10px; */
+    /* color: black;
+    padding: 0px;
+    background-color: rgb(255, 255, 255);*/
+    background-image: url("images/gaeldom-counties-map-small.png");
+    /*background-size: 70%;*/
+    background-repeat: no-repeat; 
+    /* background-position: right 20px top 10px; */
+    /* width: 100%;
+    overflow: scroll;
+    height: 100%; */ 
+}
+.label-text {
+    text-align: center;
+    font-size: 8px;
+    font-family:sans-serif;
+}
+
+.maps-table {
+    overflow: scroll;
+}
+
+td {
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+
+thead {
+    font-weight: bold;
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    /* border: 1px solid gray; */
+}
+
+td:nth-child(1), td:nth-child(2) {
+    width: 50px;
 }
