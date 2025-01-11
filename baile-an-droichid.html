@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<base href="https://duilinn.github.io/">
-	<base href=".">
+	<!-- <base href="."> -->
 	<style>
 		@font-face {
 			font-family: Alegreya;
@@ -374,8 +374,8 @@
 			fetch("baile-an-droichid/transcripts/" + episodeName + ".vtt")
 				.then(response => response.text())
 				.then((data) => {
-					// console.log(data.split("\n"));
-					var subtitles = data.split("\r\n\r\n");
+					data = data.replaceAll("\r\n", "\n");
+					var subtitles = data.split("\n\n");
 					// console.log("datalines:");
 					// console.log(dataLines);
 					var transcript = document.getElementById("transcript");
@@ -383,8 +383,8 @@
 
 					for (var i = 1; i < subtitles.length; i += 1) {
 						// console.log(`timestamp = ${dataLines[i]}`);
-						let dataLines = subtitles[i].split("\r\n");
-						console.log(dataLines)
+						let dataLines = subtitles[i].split("\n");
+						console.log(dataLines);
 						var row = document.createElement("div");
 						row.classList.add("row");
 						row.classList.add("transcript-row");
@@ -412,7 +412,6 @@
 						// transcriptTextDiv.style.width = "calc(100% - 120px)";
 						// transcriptTextDiv.style.wordWrap = "break-word";
 						row.append(transcriptTextDiv);
-
 						transcript.append(row);
 					};
 					var episodeTitle = document.getElementById("episode-title");
