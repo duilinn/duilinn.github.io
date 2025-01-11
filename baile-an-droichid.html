@@ -19,7 +19,7 @@
 
 		body {
 			font-family: Alegreya, sans-serif;
-			font-size: 16pt;
+			font-size: 14pt;
 			display: flex;
 		}
 
@@ -45,12 +45,13 @@
 
 		.transcript-container {
 			margin-left: 150px;
-			margin-top: 100px;
+			margin-top: 150px;
 			height: 1000px;
+			transition: margin-left .5s;
 		}
 
 		.transcript {
-			padding: 1px 16px;
+			padding: 1px 25px;
 		}
 
 		.transcript-row {
@@ -82,23 +83,53 @@
 			/* Disable horizontal scroll */
 			padding-top: 20px;
 			padding: 5px;
+			transition: .5s;
+		}
+
+		.sidebarButton {
+			border: 0px;
+			height: 20px;
+			width: 20px;
+			vertical-align: middle;
+			padding: 0px;
+			margin: 10px;
+			border-radius: 2px;
+		}
+
+		.sidebarOpenButton {
+			background-color: #e1e1e1;
+			font-size: 20px;
+			font-weight: bold;
+			height: 80px;
+			margin-right: 20px;
+			padding: 5px;
+		}
+
+		.sidebarOpenButton:hover {
+			background-color: #c1c1c1;
+		}
+
+		.sidebarOpenButton:active {
+			background-color: #c1c1c1;
+
+		}
+		.sidebarCloseButton {
+			background-color: #c3c3c3;
 		}
 
 		@media screen and (max-height: 450px) {
-			.sidebar {
+			/* .sidebar {
 				padding-top: 15px;
-				width: 150px;
-			}
+				width: 120px;
+			} */
 
 			.sidebar a {
 				font-size: 18px;
 			}
 
-			.transcript-container {
-				margin-left: 100px;
-			}
-
-
+			/* .transcript-container {
+				margin-left: 120px;
+			} */
 		}
 
 		.sidebar a {
@@ -167,7 +198,7 @@
 
 		.audio-button {
 			border-width: 0px;
-			border-radius: 5px;
+			border-radius: 5gpx;
 			padding: 5px;
 			background-color: white;
 			width: 30px;
@@ -349,7 +380,7 @@
 						var nextTimeText = row.nextElementSibling.getElementsByClassName("timestamp")[0].innerHTML.split(":");
 						nextTime = (parseInt(nextTimeText[0]) * 3600) + (parseInt(nextTimeText[1]) * 60) + parseFloat(nextTimeText[2]);
 					}
-					console.log(`slider time = ${currTime}, this row = ${rowTime}, nextTime = ${nextTime}`)
+					// console.log(`slider time = ${currTime}, this row = ${rowTime}, nextTime = ${nextTime}`)
 					if (rowTime <= currTime) {
 						// console.log("next time = " + nextTime + ", i =" + i)
 						if (nextTime < 0 || currTime < nextTime) {
@@ -384,7 +415,6 @@
 					for (var i = 1; i < subtitles.length; i += 1) {
 						// console.log(`timestamp = ${dataLines[i]}`);
 						let dataLines = subtitles[i].split("\n");
-						console.log(dataLines);
 						var row = document.createElement("div");
 						row.classList.add("row");
 						row.classList.add("transcript-row");
@@ -408,10 +438,10 @@
 						// if (dataLines.length > 2) {
 						// 	transcriptTextDiv.innerHTML += "<br/>" + dataLines[2].trim();
 						// }
-						console.log(transcriptTextDiv.innerHTML);
 						// transcriptTextDiv.style.width = "calc(100% - 120px)";
 						// transcriptTextDiv.style.wordWrap = "break-word";
 						row.append(transcriptTextDiv);
+
 						transcript.append(row);
 					};
 					var episodeTitle = document.getElementById("episode-title");
@@ -523,7 +553,19 @@
 			episodesWithTranscript.forEach(ep => { ep.innerHTML = ep.innerHTML + ' <i class="fa fa-file-text" aria-hidden="true"></i>' });
 		});
 
+		function openSidebar() {
+			document.getElementsByClassName("sidebar")[0].style.width = "150px";
+			document.getElementsByClassName("transcript-container")[0].style.marginLeft = "150px";
+			document.getElementById("sidebarOpenButton").style.display = "none";
+			document.getElementsByClassName("series-info")[0].style.display = "block";
+		}
 
+		function closeSidebar() {
+			document.getElementsByClassName("sidebar")[0].style.width = "0";
+			document.getElementsByClassName("transcript-container")[0].style.marginLeft = "0";
+			document.getElementById("sidebarOpenButton").style.display = "block";
+			document.getElementsByClassName("series-info")[0].style.display = "none";
+		}
 		// window.onload = function () {
 		// 	document.getElementById("s01e01").onclick = function ()
 		// };
@@ -552,7 +594,10 @@
 					</button>
 				</div>
 			</div>
-			<h3>Baile an Droichid transcripts</h3>
+			<div style="display: flex">
+				<h4>Baile an Droichid transcripts</h4>
+				<button class="sidebarButton sidebarCloseButton" onclick="closeSidebar()"><b>✖</b></button>
+			</div>
 			<br>
 			© RTÉ 2024
 			<br>
@@ -585,10 +630,17 @@
 		</div>
 		<div class="transcript-container">
 			<div class="player-box">
-				<div class="episode-title" id="episode-title">
+				<div style="display: flex;">
+					<button class="sidebarButton sidebarOpenButton" id="sidebarOpenButton" onclick="openSidebar()"
+						style="display: none">&gt;</button>
+					<div style="display:block">
+						<div class="episode-title" id="episode-title">
+						</div>
+						<audio controls id="audio-player" ontimeupdate="updateTrackTime(this);"
+							style="width: auto; display: none;"></audio>
+					</div>
 				</div>
-				<audio controls id="audio-player" ontimeupdate="updateTrackTime(this);"
-					style="width: auto; display: none;"></audio>
+
 			</div>
 			<div class="transcript" id="transcript">
 
