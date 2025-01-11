@@ -12,20 +12,25 @@
 	<base href="https://duilinn.github.io/">
 	<base href=".">
 	<style>
+		@font-face {
+			font-family: Alegreya;
+			src: url("fonts/Alegreya-Regular.ttf") format("opentype");
+		}
+
 		body {
 			font-family: Alegreya, sans-serif;
-			font-size: 18pt;
+			font-size: 16pt;
+			display: flex;
 		}
 
 		h1 {
 			font-size: 50pt;
 		}
 
-		.page {
+		/* .page {
 			display: flex;
-			width: 100%;
-		}
-
+			width: 100%; 
+		} */
 
 		.player-box {
 			width: 100%;
@@ -39,7 +44,7 @@
 		}
 
 		.transcript-container {
-			margin-left: 500px;
+			margin-left: 150px;
 			margin-top: 100px;
 			height: 1000px;
 		}
@@ -52,14 +57,48 @@
 			cursor: pointer;
 		}
 
+		.timestamp {
+			overflow: hidden;
+			font-size: 12pt;
+			padding: 5px;
+			vertical-align: bottom;
+		}
+
+		/* The sidebar menu */
 		.sidebar {
-			margin: 0;
-			padding: 0;
-			width: 500px;
-			background-color: #c3c3c3;
-			position: fixed;
 			height: 100%;
-			overflow: auto;
+			/* Full-height: remove this if you want "auto" height */
+			width: 150px;
+			/* Set the width of the sidebar */
+			position: fixed;
+			/* Fixed Sidebar (stay in place on scroll) */
+			z-index: 1;
+			/* Stay on top */
+			top: 0;
+			/* Stay at the top */
+			left: 0;
+			background-color: #c3c3c3;
+			overflow-x: hidden;
+			/* Disable horizontal scroll */
+			padding-top: 20px;
+			padding: 5px;
+		}
+
+		@media screen and (max-height: 450px) {
+			.sidebar {
+				padding-top: 15px;
+				width: 150px;
+			}
+
+			.sidebar a {
+				font-size: 18px;
+			}
+
+			.transcript-container {
+				margin-left: 100px;
+			}
+
+
 		}
 
 		.sidebar a {
@@ -70,6 +109,7 @@
 			padding: 16px;
 			text-decoration: none;
 			overflow: hidden;
+			font-size: 16px;
 		}
 
 		.sidebar a.episode.active {
@@ -89,7 +129,7 @@
 			width: 100%;
 		}
 
-		@media screen and (max-width: 700px) {
+		/* @media screen and (max-width: 700px) {
 			.sidebar {
 				width: 100%;
 				height: auto;
@@ -103,7 +143,7 @@
 			div.content {
 				margin-left: 0;
 			}
-		}
+		} */
 
 		@media screen and (max-width: 400px) {
 			.sidebar a {
@@ -117,12 +157,12 @@
 		}
 
 		.audio-controls {
-			display: flex;
+			display: none;
 			background-color: white;
-			border-radius: 10px;
-			padding: 30px;
+			border-radius: 0px;
+			padding: 0px;
 			align-items: center;
-			margin: 10px 0px;
+			margin: 0px 0px;
 		}
 
 		.audio-button {
@@ -169,8 +209,8 @@
 		}
 
 		.current-episode-info {
-			height: 10%;
-			margin: 10px;
+			height: 0%;
+			margin: 0px;
 		}
 
 		.series-info {
@@ -289,7 +329,7 @@
 
 		function updateTrackTime(track) {
 			// console.log(`updating track with ${JSON.stringify(track)}`);
-			var currTime = Math.floor(track.currentTime + 0.5).toString();
+			var currTime = (track.currentTime).toString();
 			var audioSlider = document.getElementById("audio-slider");
 			audioSlider.value = currTime;
 
@@ -302,15 +342,14 @@
 				if (row.getElementsByClassName("timestamp")[0].innerHTML.length > 0) {
 					// console.log(row.getElementsByClassName("timestamp")[0].innerHTML);
 					var rowTimeText = row.getElementsByClassName("timestamp")[0].innerHTML.split(":");
-					var rowTime = (parseInt(rowTimeText[0]) * 60) + parseFloat(rowTimeText[1]);
-
+					var rowTime = (parseInt(rowTimeText[0]) * 3600) + (parseInt(rowTimeText[1]) * 60) + parseFloat(rowTimeText[2]);
 					var nextTime = -1
 					if (row.nextElementSibling?.getElementsByClassName("timestamp")[0].innerHTML.length > 0) {
 						// console.log("has next");
 						var nextTimeText = row.nextElementSibling.getElementsByClassName("timestamp")[0].innerHTML.split(":");
-						nextTime = (parseInt(nextTimeText[0]) * 60) + parseFloat(nextTimeText[1]);
+						nextTime = (parseInt(nextTimeText[0]) * 3600) + (parseInt(nextTimeText[1]) * 60) + parseFloat(nextTimeText[2]);
 					}
-					// console.log(`slider time = ${currTime}, this row = ${rowTime}, nextTime = ${nextTime}`)
+					console.log(`slider time = ${currTime}, this row = ${rowTime}, nextTime = ${nextTime}`)
 					if (rowTime <= currTime) {
 						// console.log("next time = " + nextTime + ", i =" + i)
 						if (nextTime < 0 || currTime < nextTime) {
@@ -331,40 +370,45 @@
 		}
 
 		function loadEpisode(episodeName) {
-			fetch("baile-an-droichid/transcripts/" + episodeName + ".html")
+			console.log(`loading ${episodeName}`);
+			fetch("baile-an-droichid/transcripts/" + episodeName + ".vtt")
 				.then(response => response.text())
 				.then((data) => {
 					// console.log(data.split("\n"));
-					var dataLines = data.split("\n");
+					var subtitles = data.split("\r\n\r\n");
 					// console.log("datalines:");
 					// console.log(dataLines);
 					var transcript = document.getElementById("transcript");
 					transcript.innerHTML = "";
 
-					for (var i = 0; i < dataLines.length; i += 3) {
+					for (var i = 1; i < subtitles.length; i += 1) {
 						// console.log(`timestamp = ${dataLines[i]}`);
-
+						let dataLines = subtitles[i].split("\r\n");
+						console.log(dataLines)
 						var row = document.createElement("div");
 						row.classList.add("row");
 						row.classList.add("transcript-row");
 						// row.classList.add("d-flex");
 						// row.style.flexWrap = "nowrap";
 						// row.style.width = "auto";
-						row.style.padding = "10px";
+						row.style.padding = "5px";
 						// row.style.width = "100%";
 						var timestampDiv = document.createElement("div");
 						timestampDiv.classList.add("timestamp");
+						("div");
 						timestampDiv.classList.add("col-md-2");
-						timestampDiv.innerHTML = dataLines[i].trim();
+						timestampDiv.innerHTML = dataLines[0].split("-->")[0].trim();
 						// timestampDiv.style.width = "auto";
 						row.append(timestampDiv);
 
 						var transcriptTextDiv = document.createElement("div");
 						transcriptTextDiv.classList.add("text");
 						transcriptTextDiv.classList.add("col-md-10");
-						if (i + 1 < dataLines.length) {
-							transcriptTextDiv.innerHTML = dataLines[i + 1].trim();
-						}
+						transcriptTextDiv.innerHTML = dataLines.slice(1).join("\n");
+						// if (dataLines.length > 2) {
+						// 	transcriptTextDiv.innerHTML += "<br/>" + dataLines[2].trim();
+						// }
+						console.log(transcriptTextDiv.innerHTML);
 						// transcriptTextDiv.style.width = "calc(100% - 120px)";
 						// transcriptTextDiv.style.wordWrap = "break-word";
 						row.append(transcriptTextDiv);
@@ -374,7 +418,7 @@
 					var episodeTitle = document.getElementById("episode-title");
 					episodeTitle.innerHTML = `<h2>${episodeName.toUpperCase()}</h2>`;
 					var audioPlayer = document.getElementById("audio-player");
-					audioPlayer.src = "baile-an-droichid/audio/" + episodeName + ".mp3";
+					audioPlayer.src = "baile-an-droichid/audio/" + episodeName + "_constant.mp3";
 					audioPlayer.load();
 					audioPlayer.style.display = "flex";
 
@@ -421,6 +465,7 @@
 			audioSlider.value = audioPlayer.currentTime;
 		}
 		function changeTime(time) {
+			console.log(`changing to ${time}`);
 			var audioPlayer = document.getElementById("audio-player");
 			var newTime = audioPlayer.currentTime + time
 
@@ -451,9 +496,9 @@
 			if (target) {
 				// Do something with `target`.
 				// console.log("success");
-				// console.log(target);
+				// console.log(target.getElementsByClassName("timestamp")[0].innerHTML);
 				var targetTimeText = target.getElementsByClassName("timestamp")[0].innerHTML.split(":");
-				var targetTime = (parseInt(targetTimeText[0]) * 60) + parseFloat(targetTimeText[1]);
+				var targetTime = (parseInt(targetTimeText[0]) * 3600) + (parseInt(targetTimeText[1]) * 60) + parseFloat(targetTimeText[2]);
 
 				var audioPlayer = document.getElementById("audio-player");
 				audioPlayer.currentTime = targetTime - 0;
@@ -494,9 +539,6 @@
 	<div class="page">
 		<div class="sidebar">
 			<div class="current-episode-info">
-				<h3>Baile an Droichid transcripts</h3>
-				<br>
-				© RTÉ 2024
 				<div class="audio-controls" id="audio-controls" style="display: none;">
 					<button type="button" class="audio-button" id="play-button" onclick="playButtonClicked(this)">
 						▶
@@ -511,6 +553,9 @@
 					</button>
 				</div>
 			</div>
+			<h3>Baile an Droichid transcripts</h3>
+			<br>
+			© RTÉ 2024
 			<br>
 			<div class="series-info">
 				<a class="series-title">Series 1</a>
@@ -539,16 +584,16 @@
 				<a class="episode unavailable" id="s01e04" onclick="loadEpisode('s01e04')">S01E23</a>
 			</div>
 		</div>
-	</div>
-	<div class="transcript-container">
-		<div class="player-box">
-			<div class="episode-title" id="episode-title">
+		<div class="transcript-container">
+			<div class="player-box">
+				<div class="episode-title" id="episode-title">
+				</div>
+				<audio controls id="audio-player" ontimeupdate="updateTrackTime(this);"
+					style="width: auto; display: none;"></audio>
 			</div>
-			<audio controls id="audio-player" ontimeupdate="updateTrackTime(this);"
-				style="width: 50%; display: none;"></audio>
-		</div>
-		<div class="transcript" id="transcript">
+			<div class="transcript" id="transcript">
 
+			</div>
 		</div>
 	</div>
 </body>
