@@ -210,7 +210,8 @@
 		}
 
 		.series-info {
-			overflow: scroll;
+			overflow-y: scroll;
+			overflow-x: hidden;
 			max-height: 100%;
 		}
 
@@ -555,14 +556,16 @@
 
 		function openSidebar() {
 			document.getElementsByClassName("sidebar")[0].style.width = "150px";
+			document.getElementsByClassName("sidebar")[0].style.padding = "5px";
 			document.getElementsByClassName("transcript-container")[0].style.marginLeft = "150px";
 			document.getElementById("sidebarOpenButton").style.display = "none";
 			document.getElementsByClassName("series-info")[0].style.display = "block";
 		}
 
 		function closeSidebar() {
-			document.getElementsByClassName("sidebar")[0].style.width = "0";
-			document.getElementsByClassName("transcript-container")[0].style.marginLeft = "0";
+			document.getElementsByClassName("sidebar")[0].style.width = "0px";
+			document.getElementsByClassName("sidebar")[0].style.padding = "0px";
+			document.getElementsByClassName("transcript-container")[0].style.marginLeft = "0px";
 			document.getElementById("sidebarOpenButton").style.display = "block";
 			document.getElementsByClassName("series-info")[0].style.display = "none";
 		}
