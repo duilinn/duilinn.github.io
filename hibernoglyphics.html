@@ -16,23 +16,95 @@
 <body id="">
     <div class="fullscreen-div">
         <h1>What is Hibernoglyphics?</h1>
-        <div>Hibernoglyphics is a syllabic writing system for Irish.</div>
-        <br/>
-        <div><i>But isn't Irish full of really complex syllable onsets and codas like "ml", "dhb" and "str"?</i></div>
-        <br/>
-        <div>Yes, but there are a few tricks to working around this. Here they are:
-            <ol>
-                <li>Firstly, all dialects of Irish break up some syllable codas with a so-called "epenthetic vowel" (<i>guta cúnta</i>). Thus, <i>gorm</i> "blue" is really said as if it was spelt <i>goram</i>.</i></li>
-                <li>Secondly, in Munster Irish this is taken a step further and consonant clusters like -thr- are broken up too: <i>athrú</i> becomes <i>atharú</i>.</li>
-                <li>Thirdly, historically a lot of vowels were lost in the middle and end of Irish words: thus <i>inghean</i> "daughter" comes from Primitive Irish <i>INIGENĀS</i>. The final vowel was lost in a process called apocope, but it left its mark in the broad/slender quality of the final consonant. We can use this to our advantage: <i>damh</i> "ox" (nominative singular) can be written in our system as "daṁo" and <i>daimh</i> "ox" (genitive singular) can be written as "daṁi". Note that the lenition dot is used instead of a "h", this will be used in our system too (one of the minor exceptions to my decision to not use Latin script shapes for my writing system).</li></l>
-                <li>Finally, the most complex syllable onsets are <i>scl, scr, str, spl, spr</i>. By making special characters for <i>sc, sp, st</i> (which are internally transcribed as <i>x, q, z</i>), we can make sure that no syllable will need more than two characters to transcribe its onset.</li>
-            </ol>
-        </div>
-        <div>We can apply these principles liberally to ensure that all words are writeable using a reasonable inventory of characters, and have a reasonable length in our system. Sometimes the resulting spellings will resemble Primitive Irish, such as <i>inghean</i> being spelt <i>iniġeno</i>, and as such this system has features of a highly etymological spelling, however that is not its aim.</div>
+        <i>Hibernoglyphics is a pseudo-syllabic writing system for Irish. References to consonants and vowels below generally deal with a simplified version of the sounds of Classical Modern Irish, which formed the basis of Irish spelling before the mid-20th century. Similarly, all Irish spellings mentioned below will be pre-reform spellings.</i>
+        <hr/>
 
         <h1>Introduction</h1>
-        <div>Now time to display the actual symbols that will be used to write this system.</div>
+        <p>Let's start with a very simple syllabary, a simplified version of consonant-vowel combinations in Irish. These all originate as pictograms I created.</p>
         <img src="hibernoglyphics_images/basic_syllables.png"/>
-        <div>The basic syllable characters in Hibernoglyphics.</div>
+        <hr/>
+
+        <h2>First word</h2>
+        <p>With these we can already write some simple words. Here's <i>bata</i> "bat" (tool). We write it as <b>bata</b>:</p>
+        <img src="hibernoglyphics_images/bata.png"/>
+        <hr/>
+
+        <h2>Broad and slender</h2>
+        <p>However, in Irish there are actually two versions of every consonant: broad and slender. Broad consonants are ones with the vowels <i>a</i>, <i>o</i> and <i>u</i> written before and after them, while slender consonants are ones written with the vowels <i>e</i> or <i>i</i> written before and after them. The broad and slender versions of each consonant are pronounced differently, with slender sounds often sounding like a "y" sound follows them.</p>
+        <p>However, the fact that the consonant quality is indicated by vowels both before <i>and</i> after it means that at least one of those written vowels is redundant (usually the first one). Thus words like <i>maide</i> "stick" can be written in our system as <b>made</b>:</p>
+        <img src="hibernoglyphics_images/maide.png"/>
+        <hr/>
+
+        <h2>Lenited consonants and long vowels</h2>
+        <p>In Irish consonants come in two forms, unlenited and lenited. The lenited consonants are, historically, "weakened" versions of the base consonants, and are usually written with a following <i>h</i> in Modern Irish. However for <i>l</i>, <i>n</i> and <i>r</i>, a single letter alone instead represents the lenited variant, with a double letter (i.e.<i>ll</i>, <i>nn</i> or <i>rr</i>) or a single, word-initial letter representing the unlenited sound. Historically lenition has been written using a dot above a consonant, e.g. for <i>ch</i> one would write <i>ċ</i></p>
+        <p>Irish has both short and long vowels, the short vowels being written using the letters <i>a</i>, <i>e</i>, <i>i</i>, <i>o</i> and <i>u</i>, and the long vowels being written using an acute accent: <i>á</i>, <i>é</i>, <i>í</i>, <i>ó</i> and <i>ú</i></p>
+        <p>In our system we will use a dot above a glyph for a lenited version of a letter, and we will make <b>l</b>, <b>n</b> and <b>r</b> stand for the unlenited variants of those letters (e.g. what is written non-word-initially in Irish as doubled <i>ll</i>, <i>nn</i> and <i>rr</i>), while the same glyphs with the lenition dot will stand for the lenited sounds (e.g. what is written non-word-initially in Irish as single <i>l</i>, <i>n</i> and <i>r</i>). In annotations below glyphs, <b>r</b> will stand for unlenited <i>rr</i> while <b>rh</b> will stand for lenited <i>r</i>, and the same will apply to the lenited and unlenited <i>l</i> and <i>r</i> too.</p>
+        <p>A syllable can of course have both a lenited initial consonant and a long vowel. Below are the four such possible combinations and how they are written:</p>
+        <img src="hibernoglyphics_images/ta_tá_tha_thá.png"/>
+        <hr/>
+
+        <h2>Word final consonants</h2>
+        <p>For word final consonants, we can add a dummy vowel after, which will be either <b>o</b> or <b>i</b> depending on whether the preceding consonant is broad or slender. This does not cause any ambiguity as neither short <i>i</i> nor short <i>o</i> can occur in an unstressed position in Irish. So <i>beag</i> becomes <b>bego</b> (remembering the rule about removing redundant vowels, here we write the <i>ea</i> as simply <b>a</b>).</p>
+        <img src="hibernoglyphics_images/beag.png"/>
+        <p>Similarly, we can write the word <i>méid</i> "amount" as <b>médi</b>.</p>
+        <img src="hibernoglyphics_images/méid.png"/>
+        <hr/>
+
+        <h2>Consonant clusters</h2>
+        <p>For word initial, word medial and word final consonant clusters we break them up with either <i>o</i> or <i>i</i>, depending on the quality of the cluster, as above.</p>
+        <p>Note that for word initial consonant clusters, there is potential ambiguity, for example <b>solha</b> could represent either <i>sola</i> or <i>sla</i>, while <b>silhe</b> coyld represent either <i>sile</i> or <i>sle</i>. This is resolved by putting a dot below the glyph when the vowel is not to be pronounced. This underdot is ONLY to be used in stressed syllables, which are usually word initially. It is not required in unstressed syllables. In annotations this unpronounced vowel is written with a following <b>h</b> (not to be confused with the <b>h</b> of lenition, which only occurs after consonants!). Below are the words <i>glas</i> <b>gohlhaso</b> "green" and <i>gorm</i> <b>gorhomo</b> "blue":</p>
+        <img src="hibernoglyphics_images/glas_gorm.png"/>
+        <hr/>
+
+
+        <h2><i>ia</i>, <i>ua</i> and <i>ao(i)</i></h2>
+        <p>The diphthongs <i>ia</i> and <i>ua</i> in Irish originate from long <i>é</i> and <i>ó</i> historically. Often in declensions of Irish nouns you see alteration between <i>ia</i> and <i>é(i)</i>: <i>pian</i> "pain" (nominative singular) vs <i>péin</i> "pain" (dative singular). Similarly, in standard Irish the word for "new" is written as <i>nua</i> which is most commonly pronounced <i>nó</i> in Munster.</p>
+        <p>Thus we can write <i>ia</i> as <b>ê</b> and <i>ua</i> as <b>ô</b>, which will be represented with a circumflex above the glyph. Note that since these vowels are already long, the circumflex will never co-occur with the long vowel mark. In annotations these will be written as <b>ía</b> and <b>úa</b>.</p>
+        <p>Below are the words <i>pian</i>, <i>péin</i>, <i>nua</i> and <i>nó</i>:</p>
+        <img src="hibernoglyphics_images/pian_péin_nua_nó.png"/>
+        <p>The vowel written as <i>ao(i)</i> in Irish represented /əː/, in modern dialects it is variously pronounced /iː/, /eː/ or /ɯː/. It originates in Old Irish /ai̯/, /oi̯/ and /ui̯/. We will represent it as <b>â</b>, using the corresponding glyph with <b>a</b>, and with the circumflex diacritic. In annotations it will be written as <b>áo</b>. Like above, the circumflex will not co-occur with the length mark as <i>ao</i> is always long.</p>
+        <img src="hibernoglyphics_images/saor.png"/>
+        <hr/>
+
+        <h2>U-affected vowels</h2>
+        <p>Historically in Irish many vowels combined with a following u sound to form diphthongs. These diphthongs persisted into Classical Modern Irish, and today's Irish words will be harder to write if we don't consider them. This extra "u" sound is represented by a small notch under the glyph. This does not co-occur with the vowel deletion dot mentioned above. Below are the words <i>seo</i> <b>seu</b> "this", <i>seó</i> <b>séu</b> "show" (noun), <i>aniu</i> <b>aniu</b> "today" (note that this is usually written <i>inniu</i> in current spelling) and <i>fiú</i> <b>fíu</b> "worth". Note that long <i>eó</i> is usually spelt <i>eo</i> in standard Irish, only <i>seo</i>, <i>deoch</i> and <i>eochair</i> have short graphical <i>eo</i> in standard spelling.</p>
+        <img src="hibernoglyphics_images/seo_seó_inniu_fiú.png"/>
+        <hr/>
+
+        <h2>Pre-nasalisation</h2>
+        <p>Eclipsed words can be represented by an L-like shape above the glyph representing the initial syllable of a word. Word-medially and word-finally this instead represents a homorganic nasal before the consonant. In annotations this diacritic is written as a superscript small caps <b>ᶰ</b>. Below are the words <i>lampa</i> <b>laᶰpa</b>, <i>ceanntar</i> <b>ceᶰtarho</b> "area" and <i>teanga</i> <b>teᶰga</b> "tongue"/"language":</p>
+        <img src="hibernoglyphics_images/lampa_ceanntar_teanga.png"/>
+        <hr/>
+
+        <h2>Stacking glyphs</h2>
+        <p>Glyphs in a morpheme are generally stacked bottom to top. Below are the stacked glyphs for <i>dearg</i> <b>derhogo</b> "red", <i>buidhe</i> <b>budhe</b> "yellow", <i>glas</i> <b>gohlhaso</b> "green", <i>gorm</i> <b>gorhomo</b> "blue", <i>bán</i> <b>bánho</b> "white" and <i>dubh</i> <b>dubho</b> "black". At this point, annotation becomes more of a hindrance than a help and so it will be omitted from here on:</p>
+        <img src="hibernoglyphics_images/dearg_buidhe_glas_gorm_bán_dubh.png"/>
+        <hr/>
+
+        <h2>Morphemes</h2>
+        <p>This approach would lead to very squeezed stacks of glyphs, that is why only glyphs that form part of the same <i>morpheme</i> are stacked. A morpheme is the smallest unit of meaning in a language, for example in the English word "cars", both "car" and "-s" are morphemes.</p>
+        <p>In our system, morpheme boundaries in a word will be seperated with a dot in between the two stacks of glyphs. Note that a "stack" can have a single glyph, or often up to four glyphs. Spaces between words are not represented in our system as they are implied in the gap between stacks, when not seperated by the morpheme seperator dot.</p>
+        <p>Below are the words <i>busanna</i> <b>buso-anna</b> "buses" and <i>móra</i> <b>móro-a</b> "big" (plural adjective):</p>
+        <img src="hibernoglyphics_images/busanna_móra.png"/>
+        <hr/>
+
+        <h2>Some common consonant clusters</h2>
+        <p>The most complex initial consonant clusters are ones made up of <i>sp</i>, <i>st</i> or <i>sp</i>, plus <i>l</i> or <i>r</i>. To reduce the maximum needed number of glyphs needed to represent a syllable onset from three to two, we can make unique glyphs for <i>s[p|t|k]</i> plus a vowel.</p>
+        <p>Similarly, we can make a unique glyph for the combination <i>cht</i>, which often occurs as an ending in nouns.</p>
+        <p>Below are the 20 extra glyphs needed for this:</p>
+        <img src="hibernoglyphics_images/extra_syllables.png"/>
+        <hr/>
+
+        <h2>Short words</h2>
+        <p>Some short words will be represented using simplified versions of their glyphs. These glyphs will not take up the space of a regular stack but will be placed in the space to the left of a stack. They can also be overlaid on top of each other.</p>
+        <p>In the first row below are the words <i>ag</i> <b>ago</b> "at", <i>ar</i> <b>arho</b> ("on"/past question particle), <i>an</i> <b>anho</b> (singular definite article, question particle and many other uses) and <i>as</i> <b>aso</b> "out of".</p>
+        <p>In the second row are the words <i>na</i> <b>na</b> (plural definite article), <i>go</i> <b>go</b> ("to"/adverb marker etc), <i>do</i> <b>do</b> ("to"/past tense marker) and <i>as an</i> <b>aso anho</b> "out of the".</p>
+        <p>All these symbols are followed by the glyph <b>da</b> for reference:</p>
+        <img src="hibernoglyphics_images/short_words.png"/>
+        <hr/>
+
+        <h2>A short text</h2>
+        <p>At this point, armed with the charts of basic and extended glyphs, you should be able to attempt to decode at least the start of this text. It is the first 20 lines of the 18th century Irish poem <i>Cúirt an Mheadhóin Oidhche</i> <b>Cúriti anho Mhedhónhi Odhiche</b> "The Midnight Court" by Brian Merriman. The first 10 lines are on the left hand side, followed by the next 10 lines on the right hand side.</p>
+        <img src="hibernoglyphics_images/midc_1_2.png"/>
     </div>
 </body>
