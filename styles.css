@@ -156,8 +156,17 @@ button {
     font-family:sans-serif;
 }
 
+.label-text-lasid-long {
+    text-align: center;
+    font-size: 8px;
+    font-family:sans-serif;
+}
+
+
 .maps-table {
     overflow: scroll;
+    max-width: 500px;
+    width: 500px;
 }
 
 td {
@@ -175,4 +184,11 @@ thead {
 
 td:nth-child(1), td:nth-child(2) {
     width: 50px;
+    max-width: 50px;
+}
+
+
+.lasid-table.td:nth-child(2) {
+    width: 50px;
+    max-width: 50px;
 }
