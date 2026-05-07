@@ -4,6 +4,7 @@
 <head>
     <title>LASID viewer</title>
     <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"/>
     <script>
 
         var currentMap = 0;
@@ -31,31 +32,41 @@
         const dialect_colours = { "no": "#808000", "yes": "#008000", "extra": "#800000" };
 
         fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
+        // fetch("http://localhost:5000/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
             let lasidTable = document.getElementById("lasid-table-body");
             for (i in resultsTable) {
                 if (i > 0) {
                     let row = lasidTable.insertRow(-1);
 
-                    let updateMapNumber = (resultsTable[i][2] == "") ? (resultsTable[i][1] + "v") : (resultsTable[i][2]);
+                    // let updateMapNumber = (resultsTable[i][2] == "") ? (resultsTable[i][1] + "v") : (resultsTable[i][2]);
 
-                    row.onclick = function () { updateMap(updateMapNumber) };
-                    // let cell1 = row.insertCell(-1);
+                    row.onclick = function () {
+                        updateMap(row.children[0].innerText);
+                        mapName = "<h1 style='padding: 0px'>Map " + row.children[0].innerHTML + "</h1><h3 style='padding: 0px'>" + row.children[2].innerText + "</h3>";
+                        document.getElementById("currentMapTitle").innerHTML = mapName;
+                        document.querySelectorAll("#lasid-table tr").forEach(
+                            (r) => r.style.backgroundColor = "white"
+                        );
+                        row.style.backgroundColor = "cyan";
+                    };
+                    let cell1 = row.insertCell(-1);
                     let cell2 = row.insertCell(-1);
                     let cell3 = row.insertCell(-1);
-                    let cell4 = row.insertCell(-1);
-                    // cell1.innerHTML = table[i][0];
+                    // let cell4 = row.insertCell(-1);
+                    cell1.innerHTML = resultsTable[i][0];
                     cell2.innerHTML = resultsTable[i][1];
                     cell3.innerHTML = resultsTable[i][2];
-                    cell4.innerHTML = resultsTable[i][3];
+                    // cell4.innerHTML = resultsTable[i][3];
                 }
             }
         });
 
         async function updateMap(number) {
-            const initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/maps/" + number);
-            // const initialData = await fetch("http://localhost:5000/maps/" + number);
+            const initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/mapsLong/" + number);
+            // const initialData = await fetch("http://localhost:5000/mapsLong/" + number);
             const jsonResponse = await initialData.json();
-            console.log(jsonResponse);
+            console.log("new lasid data:");
+            console.log(jsonResponse);  
             currentMapData = jsonResponse;
             currentMap = number;
 
@@ -64,6 +75,7 @@
             for (pointInfo of jsonResponse) {
                 if (pointInfo[0] != "") {
                     let newPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    console.log("non-null point found:");
                     console.log(pointInfo);
                     let lon = parseFloat(pointInfo[2]);
                     let lat = parseFloat(pointInfo[1]);
@@ -151,8 +163,8 @@
 
 <body class="lightmode">
     <div class="main-container">
-        <div class="main-sidebar">
-            <h1 id="currentMapTitle"></h1>
+        <div class="main-sidebar" style="padding: 20px">
+            <span id="currentMapTitle" style="max-height: 200px; min-height:200px;height:200px"></span>
             <h3 id="currentMapSubtitle"> </h3>
             <div>
                 <span style="color:#7fbf7f">●</span> Living dialect
