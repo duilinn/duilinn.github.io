@@ -4,7 +4,7 @@
 <head>
     <title>LASID viewer</title>
     <link rel="stylesheet" href="styles.css">
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <script>
 
         var currentMap = 0;
@@ -32,7 +32,7 @@
         const dialect_colours = { "no": "#808000", "yes": "#008000", "extra": "#800000" };
 
         fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
-        // fetch("http://localhost:5000/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
+            // fetch("http://localhost:5000/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
             let lasidTable = document.getElementById("lasid-table-body");
             for (i in resultsTable) {
                 if (i > 0) {
@@ -66,7 +66,7 @@
             // const initialData = await fetch("http://localhost:5000/mapsLong/" + number);
             const jsonResponse = await initialData.json();
             console.log("new lasid data:");
-            console.log(jsonResponse);  
+            console.log(jsonResponse);
             currentMapData = jsonResponse;
             currentMap = number;
 
@@ -97,9 +97,10 @@
             }
         }
 
-        const handleSliderChange = (event) => {
+        const handleSliderChange = (value) => {
             const newValue = parseInt(event.target.value);
-            textSIze = newValue;
+            console.log("new val = " + newValue);
+            document.querySelectorAll(".label-text").forEach((r) => r.style.fontSize = newValue + "px");
         };
 
         async function changeMap(n) {
@@ -157,7 +158,9 @@
             input.value = "";
         }
 
+        window.onload(() => {
 
+        });
     </script>
 </head>
 
@@ -172,6 +175,8 @@
                 <span style="color:#bfbf7f">●</span> Dead dialect (LASID)<br />
                 <span style="color:#bf7f7f">●</span> Dead dialect (other sources)
                 <br />
+                <input type="range" min="1" max="20" step="1" style="margin:0px 20px;width:30%" id="fontSizeSlider"
+                    value="20">
                 <br />
                 <i>Italic</i> font indicates that only the choice of word is recorded, not a phonetic
                 transcription.
@@ -210,6 +215,12 @@
             </table>
         </div>
     </div>
+    <script>
+        var fontSizeSlider = document.getElementById("fontSizeSlider");
+        fontSizeSlider.oninput = function () {
+            handleSliderChange(this.value);
+        }
+    </script>
 </body>
 
 </html>
