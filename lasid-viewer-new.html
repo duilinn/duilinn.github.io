@@ -89,7 +89,8 @@
                         cell3.onclick = onCellClick;
                     }
 
-                    cell4.innerHTML = resultsTable[i].english;
+                    cell4.innerHTML = resultsTable[i].english +
+                        "<br/><i>" + resultsTable[i].gaelic + "</i>";
                     cell4.onclick = onCellClick;
 
                 }
@@ -123,7 +124,7 @@
             }
         });
 
-        function autoWrap(text, lineLength=8) {
+        function autoWrap(text, lineLength = 8) {
             let splitText = text;
             let returnLines = []
 
@@ -221,12 +222,12 @@
 
                     var textLines = pointInfo.pointData.replaceAll("\n", "<br/>");
 
-                    
+
                     if (textLines[0] == "$") {
                         textLines = `<i>${textLines.slice(1)}</i>`
                     }
                     textLines = textLines.split(";").map(el => el.trim());
-                    
+
                     pointSubtitle = `<br/><i style='color:gray;font-size:80%'>${pointSubtitleText}</i>`;
 
                     let permanentTooltip = true;

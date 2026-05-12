@@ -130,7 +130,7 @@ button {
 }
 
 .main-sidebar {
-    width: 20%;
+    width: 25%;
 }
 
 .main-window {
@@ -168,8 +168,8 @@ button {
 
 .maps-table {
     overflow: scroll;
-    max-width: 30%;
-    width: 30%;
+    max-width: 35%;
+    width: 35%;
     padding: 5px;
 }
 
