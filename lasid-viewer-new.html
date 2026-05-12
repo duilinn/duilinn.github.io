@@ -14,10 +14,13 @@
     <script src="scripts/leaflet.polylineoffset.js"></script>
     <style>
         /* .leaflet-tooltip {
-            max-width: 250px;
+            max-width: 500px; 
             min-width: 100px;
             white-space: normal;
         } */
+        .vol-i-link-span {
+            padding: 0px 2px;
+        }
     </style>
     <script>
         var currentMapIndex = 0;
@@ -34,36 +37,61 @@
             // fetch("http://localhost:5000/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
             let lasidTable = document.getElementById("lasid-table-body");
             resultsTableAll = resultsTable;
+            // let spacerCell = lasidTable.insertRow(-1).insertCell(-1);
+            // spacerCell.innerText = ".";
+
             for (i in resultsTable) {
                 if (i >= 0) {
                     let row = lasidTable.insertRow(-1);
 
                     // let updateMapNumber = (resultsTable[i][2] == "") ? (resultsTable[i][1] + "v") : (resultsTable[i][2]);
 
-                    row.onclick = function () {
+                    let onCellClick = function () {
                         let volumeNumber = "";
+                        row = this.parentElement;
                         if (row.children[0].innerText == "Short") {
                             updateMap("short", row.children[1].innerText);
-                            volumeNumber = "LASID I"
                         } else if (row.children[0].innerText == "Long") {
                             updateMap("long", row.children[1].innerText);
-                            volumeNumber = "LASID II-IV"
                         }
-                        mapName = "<h3 style='padding: 0px'>" + volumeNumber + "<br/>Map " + row.children[1].innerHTML + ": " + row.children[3].innerText + "</h3>";
-                        document.getElementById("currentMapTitle").innerHTML = mapName;
-                        document.querySelectorAll("#lasid-table tr").forEach(
-                            (r) => r.style.backgroundColor = "white"
-                        );
-                        row.style.backgroundColor = "cyan";
                     };
                     let cell1 = row.insertCell(-1);
                     let cell2 = row.insertCell(-1);
                     let cell3 = row.insertCell(-1);
                     let cell4 = row.insertCell(-1);
+
                     cell1.innerHTML = resultsTable[i].surveyType;
                     cell2.innerHTML = resultsTable[i].mapNo;
-                    cell3.innerHTML = resultsTable[i].volIEquivalent.replaceAll("&", ",");
+                    cell1.onclick = onCellClick;
+                    cell2.onclick = onCellClick;
+
+                    if (resultsTable[i].volIEquivalent.length > 0 && resultsTable[i].volIEquivalent != "—") {
+                        // volIReference = resultsTable[i].surveyType.toLowerCase() + "," + resultsTable[i].mapNo;
+                        resultsTable[i].volIEquivalent.replaceAll("&", ",").split(",").forEach((ref, i) => {
+                            let linkSpan = document.createElement("span");
+                            linkSpan.classList.add("vol-i-link-span");
+                            linkSpan.innerText = ref;
+
+                            linkSpan.onclick = function (e) {
+                                updateMap("short", ref);
+                            }
+                            if (i > 0) {
+                                cell3.append(", ");
+                            }
+                            // linkSpan.style.backgroundColor = "yellow";
+                            cell3.append(linkSpan);
+                            // return `<span onclick="function (e) {updateMap('short',${ref})">${ref}</a>`;
+                        });
+
+
+                    } else {
+                        cell3.innerHTML = resultsTable[i].volIEquivalent;
+                        cell3.onclick = onCellClick;
+                    }
+
                     cell4.innerHTML = resultsTable[i].english;
+                    cell4.onclick = onCellClick;
+
                 }
             }
 
@@ -71,34 +99,101 @@
                 let [surveyType, mapNumber] = window.location.hash.slice(1).split(",");
                 console.log(`surveyType = ${surveyType}, number = ${mapNumber}`);
 
+                let mapDesc = "";
                 document.querySelectorAll("#lasid-table tr").forEach(
                     (r) => {
                         if ((r.children[0].innerText.toLowerCase() == surveyType) && (r.children[1].innerText.toLowerCase() == mapNumber)) {
-                            r.style.backgroundColor = "cyan";
+                            r.classList.add("lasid-row-selected");
+                            r.classList.remove("lasid-row-unselected");
+                            mapDesc = r.children[3].innerText;
                         } else {
-                            r.style.backgroundColor = "white";
+                            r.classList.add("lasid-row-unselected");
+                            r.classList.remove("lasid-row-selected");
                         }
                     }
                 );
                 updateMap(surveyType, mapNumber);
+                if (surveyType == "short") {
+                    volumeNumber = "LASID I";
+                } else if (surveyType == "long") {
+                    volumeNumber = "LASID II-IV";
+                }
+                mapName = "<h3 style='padding: 0px'>" + volumeNumber + "<br/>Map " + mapNumber + ": " + mapDesc + "</h3>";
+                document.getElementById("currentMapTitle").innerHTML = mapName;
             }
         });
 
+        function autoWrap(text, lineLength=8) {
+            let splitText = text;
+            let returnLines = []
+
+            for (let i = 0; i < splitText.length; i++) {
+                let longLine = splitText[i].split(" ");
+                if (longLine.length > lineLength) {
+                    let splitLine = [];
+                    for (let j = 0; j < longLine.length; j += lineLength) {
+                        let newLineSegment = longLine.slice(j, Math.min(j + lineLength, longLine.length));
+                        splitLine.push(newLineSegment.join(" "));
+                    }
+                    for (let k = 0; k < splitLine.length; k++) {
+                        returnLines.push(splitLine[k]);
+                    }
+                } else {
+                    returnLines.push(longLine.join(" "));
+                }
+            }
+            return returnLines;
+        }
+
         async function updateMap(surveyType, number) {
-            window.location.hash = `#${surveyType},${number}`
+            window.location.hash = `#${surveyType},${number}`;
+
             let initialData = [];
             if (surveyType == "short") {
+                volumeNumber = "LASID I";
                 initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/maps/" + number);
             } else if (surveyType == "long") {
+                volumeNumber = "LASID II-IV";
                 initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/mapsLong/" + number);
                 // const initialData = await fetch("http://localhost:5000/mapsLong/" + number);
+            } else if (surveyType == "info" && number == "all-points") {
+                volumeNumber = "LASID points info";
+                initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/all-points-info/");
             }
+
             const jsonResponse = await initialData.json();
             console.log("new lasid data:");
             console.log(jsonResponse);
             currentMapData = jsonResponse;
             currentSurveyType = surveyType;
             currentMapIndex = number;
+
+
+            document.querySelectorAll("#lasid-table tr").forEach(
+                (r, iconSize) => {
+                    if ((r.children[0].innerText.toLowerCase() == surveyType) && (r.children[1].innerText.toLowerCase() == number)) {
+                        r.classList.add("lasid-row-selected");
+                        r.classList.remove("lasid-row-unselected");
+                        mapDesc = r.children[3].innerText;
+
+                        r.scrollIntoView({ behavior: "smooth", "block": "center" });
+                    } else {
+                        r.classList.add("lasid-row-unselected");
+                        r.classList.remove("lasid-row-selected");
+                    }
+                }
+            );
+            if (surveyType == "short") {
+                volumeNumber = "LASID I";
+            } else if (surveyType == "long") {
+                volumeNumber = "LASID II-IV";
+            } else if (surveyType == "info") {
+                mapDesc = "";
+                volumeNumber = "";
+            }
+            mapName = "<h3 style='padding: 0px'>" + volumeNumber + "<br/>Map " + number + ": " + mapDesc + "</h3>";
+            document.getElementById("currentMapTitle").innerHTML = mapName;
+
 
             // var mainMap = document.getElementById("main-map");
             // mainMap.innerHTML = "";
@@ -123,44 +218,24 @@
                     } else if (pointInfo.dialectStatus == "extra") {
                         pointMarker = redMarker;
                     }
-                    // newPoint.setAttributeNS(null, 'cx', (10 + lon) * 57 + 50);
-                    // newPoint.setAttributeNS(null, 'cy', (57 - lat) * 95 + 170);
-                    // newPoint.setAttributeNS(null, 'r', 2);
-                    // newPoint.setAttributeNS(null, 'fill', "#ff000080");
-                    // console.log(newPoint);
-                    // mainMap.append(newPoint);
 
-                    var textLines = pointInfo.pointData;
+                    var textLines = pointInfo.pointData.replaceAll("\n", "<br/>");
+
+                    
                     if (textLines[0] == "$") {
                         textLines = `<i>${textLines.slice(1)}</i>`
                     }
                     textLines = textLines.split(";").map(el => el.trim());
-                    // console.log(textLines);
-                    // for (let i = 0; i < textLines.length; i++) {
-                    //     let text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    //     let textY = ((57 - lat) * 95 + 165) + (i * fontSize * 1.2);
-
-                    //     text.setAttribute('x', (10 + lon) * 57 + 50);
-                    //     text.setAttribute('y', textY);
-                    //     text.setAttribute('fill', '#000');
-                    //     text.setAttribute('class', 'label-text-lasid-long');
-                    //     text.setAttribute('font-size', fontSize + "px !important");
-                    //     text.textContent = textLines[i];
-                    //     mainMap.append(text);
-                    // }
-
-                    // //leaflet
-                    // let circle = L.circle([lat, lon], {
-                    //     color: 'red',
-                    //     fillColor: '#f03',
-                    //     fillOpacity: 0.5,
-                    //     radius: 500
-                    // });
-
-                    // circle.addTo(pointsLayer);
-
+                    
                     pointSubtitle = `<br/><i style='color:gray;font-size:80%'>${pointSubtitleText}</i>`;
-                    marker = L.marker([lat, lon], { icon: pointMarker, title: pointSubtitleText }).bindTooltip(textLines.join("<br/>"), { permanent: true }).addTo(pointsLayerGroup);
+
+                    let permanentTooltip = true;
+                    if (surveyType == "info" && number == "all-points") {
+                        textLines = autoWrap(textLines, 8);
+                        permanentTooltip = false;
+                    }
+
+                    marker = L.marker([lat, lon], { icon: pointMarker, title: pointSubtitleText }).bindTooltip(textLines.join("<br/>"), { permanent: permanentTooltip }).addTo(pointsLayerGroup);
                 }
             }
         }
@@ -203,22 +278,31 @@
 
 
 
-        function updateSearchValue(e) {
-            let searchTerm = e.target.value.trim().toLowerCase();
-            console.log(`searchTerm = ${searchTerm}`);
+        function updateSearchValue(e, clearing = false) {
             let lasidTable = document.getElementById("lasid-table-body");
             let lasidTableRowsLength = lasidTable.rows.length;
 
-            for (i = 1; i < lasidTableRowsLength; i++) {
-                var cells = lasidTable.rows.item(i).cells;
-                let processedRow = (cells[0].innerHTML + " " +
-                    cells[1].innerHTML + " " +
-                    cells[2].innerHTML + " " +
-                    cells[3].innerHTML).toLowerCase().trim();
-                if (searchTerm == "" || processedRow.includes(searchTerm)) {
+            if (clearing) {
+                for (i = 1; i < lasidTableRowsLength; i++) {
                     lasidTable.rows.item(i).style.visibility = "";
-                } else {
-                    lasidTable.rows.item(i).style.visibility = "collapse";
+                }
+            }
+            else {
+                let searchTerm = e.target.value.trim().toLowerCase();
+                console.log(`searchTerm = ${searchTerm}`);
+
+
+                for (i = 1; i < lasidTableRowsLength; i++) {
+                    var cells = lasidTable.rows.item(i).cells;
+                    let processedRow = (cells[0].innerHTML + " " +
+                        cells[1].innerHTML + " " +
+                        cells[2].innerHTML + " " +
+                        cells[3].innerHTML).toLowerCase().trim();
+                    if (searchTerm == "" || processedRow.includes(searchTerm)) {
+                        lasidTable.rows.item(i).style.visibility = "";
+                    } else {
+                        lasidTable.rows.item(i).style.visibility = "collapse";
+                    }
                 }
             }
         }
@@ -226,6 +310,12 @@
         function clearSearchBox() {
             const searchBox = document.getElementById("searchBox");
             searchBox.value = "";
+            updateSearchValue("", true);
+        }
+
+        function displayPointInfo() {
+            mapDesc = "";
+            updateMap("info", "all-points");
         }
 
         function toggleSimplified() {
@@ -241,7 +331,7 @@
     <div class="main-container">
         <div class="main-sidebar" style="padding: 20px">
             <h1 style="padding: 5px">LASID viewer</h1>
-            <h3 id="currentMapTitle" style="max-height: 200px; min-height:200px;height:200px"></h3>
+            <h3 id="currentMapTitle"></h3>
             <div>
                 <span style="color:#7fbf7f">●</span> Living dialect
                 <br />
@@ -254,8 +344,12 @@
                 <i>Italic</i> font indicates that only the choice of word is recorded, not a phonetic
                 transcription.
                 <br />
-                <input type="checkbox" style="width: 20px; height: 20px" onClick="toggleSimplified()"></input>
+                <input type="checkbox" class="lasid-checkbox" style="width: 20px; height: 20px"
+                    onClick="toggleSimplified()"></input>
                 Simplified view
+                <br />
+                <button class="lasid-button" onclick="displayPointInfo()">Display Points Info</button>
+
 
             </div>
             <!-- <button onClick="changeMap(-1)">&lt;-</button>
@@ -272,6 +366,13 @@
             <!-- </svg> -->
         </div>
         <div class="maps-table">
+            <div id="lasid-search-bar">
+                <form>
+                    <td><b>Search </b><input type="text" id="searchBox" hint="Search the maps list..."></td>
+                    <td><button class="lasid-button" onclick="clearSearchBox()">Clear</button>
+                    </td>
+                </form>
+            </div>
             <table id="lasid-table" style="border-collapse: collapse;">
                 <thead>
                     <tr>
@@ -279,8 +380,6 @@
                         <td>II-IV</td>
                         <td>Vol I Equiv.</td>
                         <td style="width: 200px">Word(s)</td>
-                        <td>Search: <input id="searchBox" hint="Search the maps list..."></td>
-                        <td><button onclick="clearSearchBox()">Clear</button></td>
                     </tr>
                 </thead>
                 <tbody id="lasid-table-body">
