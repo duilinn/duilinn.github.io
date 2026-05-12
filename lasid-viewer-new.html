@@ -29,7 +29,7 @@
         var currentSurveyType = "";
 
         const dialect_colours = { "no": "#808000", "yes": "#008000", "extra": "#800000" };
-        const simplifiedPointsList = ["1", "6", "6a", "11", "15", "20", "22", "27", "32", "40", "50", "57", "62","64","65","66","67","68", "76","86","87","88","88n","88s","a","b","c","d","e","f","g","rc"];
+        const simplifiedPointsList = ["1", "6", "6a", "11", "15", "20", "22", "27", "32", "40", "50", "57", "62", "64", "65", "66", "67", "68", "76", "86", "87", "88", "88n", "88s", "a", "b", "c", "d", "e", "f", "g", "rc"];
         fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
             // fetch("http://localhost:5000/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
             let lasidTable = document.getElementById("lasid-table-body");
@@ -66,9 +66,26 @@
                     cell4.innerHTML = resultsTable[i].english;
                 }
             }
+
+            if (window.location.hash.length > 1) {
+                let [surveyType, mapNumber] = window.location.hash.slice(1).split(",");
+                console.log(`surveyType = ${surveyType}, number = ${mapNumber}`);
+
+                document.querySelectorAll("#lasid-table tr").forEach(
+                    (r) => {
+                        if ((r.children[0].innerText.toLowerCase() == surveyType) && (r.children[1].innerText.toLowerCase() == mapNumber)) {
+                            r.style.backgroundColor = "cyan";
+                        } else {
+                            r.style.backgroundColor = "white";
+                        }
+                    }
+                );
+                updateMap(surveyType, mapNumber);
+            }
         });
 
         async function updateMap(surveyType, number) {
+            window.location.hash = `#${surveyType},${number}`
             let initialData = [];
             if (surveyType == "short") {
                 initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/maps/" + number);
@@ -88,7 +105,7 @@
             pointsLayerGroup.clearLayers();
 
             for (pointInfo of jsonResponse) {
-                console.log(pointInfo.pointId, `${simplifiedPointsList.includes(pointInfo.pointId)}`);
+                // console.log(pointInfo.pointId, `${simplifiedPointsList.includes(pointInfo.pointId)}`);
                 if (pointInfo.pointData != "" && ((!simplifiedView) || (simplifiedPointsList.includes(pointInfo.pointId)))) {
                     //svg
                     let newPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -143,7 +160,7 @@
                     // circle.addTo(pointsLayer);
 
                     pointSubtitle = `<br/><i style='color:gray;font-size:80%'>${pointSubtitleText}</i>`;
-                    marker = L.marker([lat, lon], { icon: pointMarker, title: pointSubtitleText}).bindTooltip(textLines.join("<br/>"), { permanent: true }).addTo(pointsLayerGroup);
+                    marker = L.marker([lat, lon], { icon: pointMarker, title: pointSubtitleText }).bindTooltip(textLines.join("<br/>"), { permanent: true }).addTo(pointsLayerGroup);
                 }
             }
         }
@@ -237,8 +254,9 @@
                 <i>Italic</i> font indicates that only the choice of word is recorded, not a phonetic
                 transcription.
                 <br />
-                <input type="checkbox" style="width: 20px; height: 20px" onClick="toggleSimplified()"></input> Simplified view
-           
+                <input type="checkbox" style="width: 20px; height: 20px" onClick="toggleSimplified()"></input>
+                Simplified view
+
             </div>
             <!-- <button onClick="changeMap(-1)">&lt;-</button>
             <button onClick="changeMap(1)">-></button>
@@ -284,10 +302,15 @@
 
         var map = L.map('map').setView([55.1, -6.8], 6);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     maxZoom: 19,
+        //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        // }).addTo(map);
+        L.tileLayer('https://map.atownsend.org.uk/hot/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
         var pointsLayerGroup = L.layerGroup();
         pointsLayerGroup.addTo(map);
 
