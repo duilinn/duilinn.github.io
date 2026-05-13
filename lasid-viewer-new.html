@@ -349,8 +349,11 @@
                                 updateMap("long", row.children[1].innerText);
                             }
                         };
-
+                        cell1.onclick = onTranscriptionCellClick;
                         cell2.onclick = onTranscriptionCellClick;
+                        cell3.onclick = onTranscriptionCellClick;
+                        cell4.onclick = onTranscriptionCellClick;
+                        cell5.onclick = onTranscriptionCellClick;
                     }
 
                     document.querySelectorAll("#lasid-transcriptions-table-body tr").forEach(
@@ -499,9 +502,11 @@
                         <td><b>Search </b><input type="text" id="searchBoxTranscriptions"
                                 hint="Search LASID transcriptions..."></td>
                         <div class="lasid-transcriptions-button-group">
-                            <td><button class="lasid-button" type="button" onclick="updateSearchValueTranscriptions()">Search</button>
+                            <td><button class="lasid-button" type="button"
+                                    onclick="updateSearchValueTranscriptions()">Search</button>
                             </td>
-                            <td><button class="lasid-button" type="button" onclick="clearSearchBoxTranscriptions()">Clear</button>
+                            <td><button class="lasid-button" type="button"
+                                    onclick="clearSearchBoxTranscriptions()">Clear</button>
                             </td>
                         </div>
                     </form>
