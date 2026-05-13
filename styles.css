@@ -114,6 +114,10 @@ h6 {
     padding: 20px;
 }
 
+h3#currentMapTitle {
+    padding: 10px;
+}
+
 button {
     background-color: #ffffff;
     color: black;
@@ -166,11 +170,25 @@ button {
 }
 
 
-.maps-table {
-    overflow: scroll;
+.lasid-right-sidebar {
+    max-height: 100%;
     max-width: 35%;
     width: 35%;
     padding: 5px;
+    overflow: scroll;
+}
+
+.lasid-pane {
+    max-height: 90%;
+    overflow: scroll;
+}
+
+/* #transcriptionsPane {
+    height: 10%;
+} */
+
+#lasid-transcriptions-table-body {
+    border: 1px solid gray;
 }
 
 td {
@@ -192,10 +210,15 @@ td:nth-child(2) {
     max-width: 50px;
 }
 
-#lasid-search-bar {
+.lasid-search-bar {
     margin: 10px 0px;
 }
 
+
+.lasid-transcriptions-button-group button {
+    width: 50px;
+    margin: 5px;
+}
 input {
     border-radius: 5px;
     border-width: 2px;
@@ -229,7 +252,6 @@ input[type=text] {
 
 button {
     all: unset;
-    background-color: #80ffff;
 }
 
 .lasid-button {
@@ -239,37 +261,44 @@ button {
     padding: 7px;
 
     border-radius: 5px;
-    background-color: #80ffff;
+
     cursor: pointer;
 }
 
-.lasid-button:hover {
-    background-color: #60d0d0;
+.lasid-button,
+.pane-tab,
+button {
+    background-color: #80ffff;
 }
 
-#lasid-table {
+.lasid-button:hover,
+.pane-tab:hover {
+    background-color: #62cdcd;
+}
+
+.lasid-table {
     overflow: scroll;
     display: block;
     height: 93%;
 }
 
-#lasid-table thead {
+.lasid-table thead {
     margin: -10px;
     padding-left: 5px;
     height: 30px;
 }
 
-#lasid-table thead tr {
+.lasid-table thead tr {
     display: block;
     width: 100%;
 }
 
-#lasid-table tbody {
+.lasid-table tbody {
     display: block;
     padding-top: 10px;
 }
 
-#lasid-table td {
+.lasid-table td {
     border-left: 1px;
     border-right: 1px;
     border-top: 0px;
@@ -279,34 +308,35 @@ button {
     vertical-align: text-top;
 }
 
-#lasid-table thead td:nth-child(1) {
+.lasid-table thead td:nth-child(1) {
     width: 55px;
     max-width: 55px;
 }
 
-#lasid-table td:nth-child(1) {
+.lasid-table td:nth-child(1) {
     width: 50px;
     max-width: 50px;
 }
 
-#lasid-table td:nth-child(2) {
-    width: 40px;
-    max-width: 40px;
+.lasid-table td:nth-child(2) {
+    width: 50px;
+    max-width: 50px;
 }
 
-#lasid-table td:nth-child(3) {
+.lasid-table td:nth-child(3) {
     width: 45px;
     max-width: 45px;
 }
 
-#lasid-table .vol-i-link-span {
+.lasid-table .vol-i-link-span {
     display: inline-block;
     width: auto;
 }
 
 
 
-.lasid-row-selected {
+.lasid-row-selected,
+.pane-tab-selected {
     background-color: #40ffff;
 }
 
@@ -322,4 +352,21 @@ div#map {
     height: 180px;
     min-height: 180px;
     min-width: 100px;
+}
+
+.pane-tabs {
+    display: flex;
+}
+
+.pane-tab {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px;
+    margin: 1px;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.pane-tab-selected {
+    font-weight: bold;
 }

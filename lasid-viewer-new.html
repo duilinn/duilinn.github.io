@@ -35,7 +35,7 @@
         const simplifiedPointsList = ["1", "6", "6a", "11", "15", "20", "22", "27", "32", "40", "50", "57", "62", "64", "65", "66", "67", "68", "76", "86", "87", "88", "88n", "88s", "a", "b", "c", "d", "e", "f", "g", "rc"];
         fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
             // fetch("http://localhost:5000/lasid-info-all").then((res) => res.json()).then((resultsTable) => {
-            let lasidTable = document.getElementById("lasid-table-body");
+            let lasidTable = document.getElementById("lasid-maps-table-body");
             resultsTableAll = resultsTable;
             // let spacerCell = lasidTable.insertRow(-1).insertCell(-1);
             // spacerCell.innerText = ".";
@@ -101,7 +101,7 @@
                 console.log(`surveyType = ${surveyType}, number = ${mapNumber}`);
 
                 let mapDesc = "";
-                document.querySelectorAll("#lasid-table tr").forEach(
+                document.querySelectorAll("#lasid-maps-table tr").forEach(
                     (r) => {
                         if ((r.children[0].innerText.toLowerCase() == surveyType) && (r.children[1].innerText.toLowerCase() == mapNumber)) {
                             r.classList.add("lasid-row-selected");
@@ -170,7 +170,7 @@
             currentMapIndex = number;
 
 
-            document.querySelectorAll("#lasid-table tr").forEach(
+            document.querySelectorAll("#lasid-maps-table tr").forEach(
                 (r, iconSize) => {
                     if ((r.children[0].innerText.toLowerCase() == surveyType) && (r.children[1].innerText.toLowerCase() == number)) {
                         r.classList.add("lasid-row-selected");
@@ -251,7 +251,7 @@
         async function changeMap(n) {
             if (n > 0) {
                 currentMapIndex = parseInt(currentMapIndex) + parseInt(n);
-                currentTableRow = document.querySelectorAll("#lasid-table tr")[n + 2];
+                currentTableRow = document.querySelectorAll("#lasid-maps-table tr")[n + 2];
                 currentTableRow.click();
             }
         }
@@ -280,7 +280,7 @@
 
 
         function updateSearchValue(e, clearing = false) {
-            let lasidTable = document.getElementById("lasid-table-body");
+            let lasidTable = document.getElementById("lasid-maps-table-body");
             let lasidTableRowsLength = lasidTable.rows.length;
 
             if (clearing) {
@@ -289,7 +289,8 @@
                 }
             }
             else {
-                let searchTerm = e.target.value.trim().toLowerCase();
+                let searchTerm = e.target.value.trim().toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 console.log(`searchTerm = ${searchTerm}`);
 
 
@@ -298,12 +299,84 @@
                     let processedRow = (cells[0].innerHTML + " " +
                         cells[1].innerHTML + " " +
                         cells[2].innerHTML + " " +
-                        cells[3].innerHTML).toLowerCase().trim();
+                        cells[3].innerHTML).toLowerCase().trim()
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                     if (searchTerm == "" || processedRow.includes(searchTerm)) {
                         lasidTable.rows.item(i).style.visibility = "";
                     } else {
                         lasidTable.rows.item(i).style.visibility = "collapse";
                     }
+                }
+            }
+        }
+
+        async function getTranscriptions(searchString) {
+            initialData = await fetch("https://2-dot-spatial-tempo-386114.ew.r.appspot.com/transcriptions-search/" + searchString).then((res) => res.json()).then((resultsTable) => {
+
+                let transcriptionsTable = document.getElementById("lasid-transcriptions-table-body");
+                transcriptionsTable.innerHTML = "";
+
+                let spacerCell = transcriptionsTable.insertRow(-1).insertCell(-1);
+                spacerCell.innerText = ".";
+
+                if (resultsTable[0] == "error") {
+                    let errorCell = transcriptionsTable.insertRow(-1).insertCell(-1);
+                    errorCell.innerText = "Error: " + resultsTable[1];
+                } else {
+                    console.log(resultsTable);
+
+                    for (i in resultsTable) {
+                        let row = transcriptionsTable.insertRow(-1);
+
+                        let cell1 = row.insertCell(-1);
+                        let cell2 = row.insertCell(-1);
+                        let cell3 = row.insertCell(-1);
+                        let cell4 = row.insertCell(-1);
+                        let cell5 = row.insertCell(-1);
+
+                        cell1.innerHTML = resultsTable[i].surveyType;
+                        cell2.innerHTML = resultsTable[i].mapNumber;
+                        cell3.innerHTML = "-";
+                        cell4.innerHTML = resultsTable[i].pointId;
+                        cell5.innerHTML = resultsTable[i].pointData;
+
+                        let onTranscriptionCellClick = function () {
+                            let volumeNumber = "";
+                            row = this.parentElement;
+                            if (row.children[0].innerText == "short") {
+                                updateMap("short", row.children[1].innerText);
+                            } else if (row.children[0].innerText == "long") {
+                                updateMap("long", row.children[1].innerText);
+                            }
+                        };
+
+                        cell2.onclick = onTranscriptionCellClick;
+                    }
+
+                    document.querySelectorAll("#lasid-transcriptions-table-body tr").forEach(
+                        (r) => {
+                            r.classList.add("lasid-row-unselected");
+                        }
+                    );
+                }
+            });
+        }
+
+        function updateSearchValueTranscriptions(e, clearing = false) {
+            let transcriptionsTable = document.getElementById("lasid-transcriptions-table-body");
+
+
+            if (clearing) {
+                transcriptionsTable.innerHTML = "";
+            }
+            else {
+                let searchTerm = document.getElementById("searchBoxTranscriptions").value.trim().toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                console.log(`searchTerm = ${searchTerm}`);
+
+                if (searchTerm.length > 0) {
+                    let searchString = encodeURIComponent(searchTerm);
+                    getTranscriptions(searchString);
                 }
             }
         }
@@ -324,6 +397,28 @@
             updateMap(currentSurveyType, currentMapIndex);
         }
         var fontSize = 8;
+
+        function changePane(paneName) {
+            document.querySelectorAll(".pane-tab").forEach((t) => {
+                if (t.id == (paneName + "Tab")) {
+                    t.classList.add("pane-tab-selected");
+                } else {
+                    t.classList.remove("pane-tab-selected");
+                }
+            })
+
+            document.querySelectorAll(".lasid-pane").forEach((p) => {
+                if (p.id == (paneName + "Pane")) {
+                    p.style.visibility = "";
+                    p.style.display = "block";
+                } else {
+                    p.style.visibility = "hidden";
+                    p.style.display = "none";
+                }
+            })
+
+
+        }
 
     </script>
 </head>
@@ -366,32 +461,71 @@
                 <circle cx="50" cy="50" fill="green" r="10"></circle> -->
             <!-- </svg> -->
         </div>
-        <div class="maps-table">
-            <div id="lasid-search-bar">
-                <form>
-                    <td><b>Search </b><input type="text" id="searchBox" hint="Search the maps list..."></td>
-                    <td><button class="lasid-button" onclick="clearSearchBox()">Clear</button>
-                    </td>
-                </form>
+        <div class="lasid-right-sidebar">
+            <div class="pane-tabs">
+                <div class="pane-tab pane-tab-selected" id="mapsTab" onClick="changePane('maps')">Maps</div>
+                <div class="pane-tab" id="transcriptionsTab" onClick="changePane('transcriptions')">Transcriptions</div>
             </div>
-            <table id="lasid-table" style="border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <td>Survey</td>
-                        <td>II-IV</td>
-                        <td>Vol I Equiv.</td>
-                        <td style="width: 200px">Word(s)</td>
-                    </tr>
-                </thead>
-                <tbody id="lasid-table-body">
-                    <tr>
-                        <td>.</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="lasid-pane" id="mapsPane">
+                <div class="lasid-search-bar">
+                    <form>
+                        <td><b>Search </b><input type="text" id="searchBox" hint="Search the maps list..."></td>
+                        <td><button class="lasid-button" onclick="clearSearchBox()">Clear</button>
+                        </td>
+                    </form>
+                </div>
+                <table id="lasid-maps-table" class="lasid-table" style="border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <td>Survey</td>
+                            <td>Map &num;</td>
+                            <td>Vol I Equiv.</td>
+                            <td style="width: 200px">Word(s)</td>
+                        </tr>
+                    </thead>
+                    <tbody id="lasid-maps-table-body">
+                        <tr>
+                            <td>.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="lasid-pane" id="transcriptionsPane" style="display: none;visibility:hidden">
+                <div class="lasid-search-bar">
+                    <form>
+                        <td><b>Search </b><input type="text" id="searchBoxTranscriptions"
+                                hint="Search LASID transcriptions..."></td>
+                        <div class="lasid-transcriptions-button-group">
+                            <td><button class="lasid-button" onclick="updateSearchValueTranscriptions()">Search</button>
+                            </td>
+                            <td><button class="lasid-button" onclick="clearSearchBoxTranscriptions()">Clear</button>
+                            </td>
+                        </div>
+                    </form>
+                </div>
+                <table id="lasid-transcriptions-table" class="lasid-table" style="border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <td>Survey</td>
+                            <td>Map #</td>
+                            <td>Map desc.</td>
+                            <td>Point</td>
+                            <td style="width: 200px">Transcription</td>
+                        </tr>
+                    </thead>
+                    <tbody id="lasid-transcriptions-table-body">
+                        <tr>
+                            <td>.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script>
