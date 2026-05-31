@@ -202,15 +202,9 @@
             pointsLayerGroup.clearLayers();
 
             for (pointInfo of jsonResponse) {
-                let relevantPointData = "";
 
-                if (wordsView) {
-                    relevantPointData = (pointInfo.pointText || pointInfo.pointData);
-                } else {
-                    relevantPointData = (pointInfo.pointData || pointInfo.pointText);
-                }
                 // console.log(pointInfo.pointId, `${simplifiedPointsList.includes(pointInfo.pointId)}`);
-                if (relevantPointData != "" && ((!simplifiedView) || (simplifiedPointsList.includes(pointInfo.pointId)))) {
+                if (((pointInfo.pointText != "" && pointInfo.pointText != "—") || (pointInfo.pointData != "" && pointInfo.pointData != "—")) && ((!simplifiedView) || (simplifiedPointsList.includes(pointInfo.pointId)))) {
                     //svg
                     let newPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                     // console.log("non-null point found:");
@@ -227,24 +221,51 @@
                     } else if (pointInfo.dialectStatus == "extra") {
                         pointMarker = redMarker;
                     }
+                    let pointTextLines = "";
+                    let pointDataLines = "";
+                    if (pointInfo.pointText) {
 
-                    var textLines = relevantPointData.replaceAll("\n", "<br/>");
-
-
-                    if (textLines[0] == "$") {
-                        textLines = `<i>${textLines.slice(1)}</i>`
+                        pointTextLines = pointInfo?.pointText?.replaceAll("\n", "<br/>") || "";
                     }
-                    textLines = textLines.split(";").map(el => el.trim());
+                    if (pointInfo.pointData) {
+
+                        pointDataLines = pointInfo?.pointData?.replaceAll("\n", "<br/>") || "";
+                    }
+
+
+                    pointDataLines = pointDataLines.split(";").map(el => el.trim());
+                    pointTextLines = pointTextLines.split(";").map(el => el.trim());
 
                     pointSubtitle = `<br/><i style='color:gray;font-size:80%'>${pointSubtitleText}</i>`;
 
                     let permanentTooltip = true;
                     if (surveyType == "info" && number == "all-points") {
-                        textLines = autoWrap(textLines, 8);
+                        pointTextLines = autoWrap(pointTextLines, 8);
                         permanentTooltip = false;
                     }
+                    console.log(`pointInfo = ${JSON.stringify(pointInfo)}`);
+                    pointDataLines = pointDataLines.join("<br/>");
+                    pointTextLines = pointTextLines.join("<br/>");
 
-                    marker = L.marker([lat, lon], { icon: pointMarker, title: pointSubtitleText }).bindTooltip(textLines.join("<br/>"), { permanent: permanentTooltip }).addTo(pointsLayerGroup);
+                    if (pointTextLines.length > 0 && Array.isArray(pointTextLines)) {
+                        pointTextLines = pointTextLines.join("<br/>");
+                    }
+
+                    var textLinesCombined = "";
+                    if (pointDataLines.length > 0 && pointTextLines.length > 0) {
+                        textLinesCombined = pointDataLines + `<br/><i style='color:gray;font-size:100%'>${pointTextLines}</i>`;
+                    } else if (pointDataLines.length > 0) {
+                        console.log(`data = ${pointDataLines}`);
+                        textLinesCombined = pointDataLines;
+                    } else if (pointTextLines.length > 0) {
+                        textLinesCombined = `<i style='color:gray;font-size:100%'>${pointTextLines}</i>`;
+                    }
+
+                    if (pointInfo?.pointTextNormalised && pointInfo.pointTextNormalised.length > 0) {
+                        textLinesCombined += `<br/><span style='font-family:monospace;font-size:100%'>${pointInfo?.pointTextNormalised}</span>`;
+                    }
+
+                    marker = L.marker([lat, lon], { icon: pointMarker, title: pointSubtitleText }).bindTooltip(textLinesCombined, { permanent: permanentTooltip }).addTo(pointsLayerGroup);
                 }
             }
         }
@@ -434,55 +455,59 @@
 
         }
 
+        function toggleLeftSidebar() {
+            if (document.getElementsByClassName("main-sidebar-plus-tab")[0].style.display == "none") {
+                document.getElementsByClassName("main-sidebar-plus-tab")[0].style.width = "25%";
+                document.getElementsByClassName("main-sidebar-plus-tab")[0].style.display = "block";
+                document.getElementsByClassName("main-sidebar-button")[0].innerHTML = "&lt;";
+            } else {
+                document.getElementsByClassName("main-sidebar-plus-tab")[0].style.width = "0px";
+                document.getElementsByClassName("main-sidebar-plus-tab")[0].style.display = "none";
+                document.getElementsByClassName("main-sidebar-button")[0].innerHTML = "&gt;";
+            }
+        }
+
     </script>
 </head>
 
 <body class="lightmode">
     <div class="main-container">
-        <div class="main-sidebar" style="padding: 20px">
-            <h1 style="padding: 5px">LASID viewer</h1>
-            <h3 id="currentMapTitle"></h3>
-            <div>
-                <span style="color:#7fbf7f">●</span> Living dialect
-                <br />
-                <span style="color:#bfbf7f">●</span> Dead dialect (LASID)<br />
-                <span style="color:#bf7f7f">●</span> Dead dialect (other sources)
-                <br />
-                <!-- <input type="range" min="3" max="20" value="8" step="1" style="margin:0px 20px;width:30%"
-                    id="fontSizeSlider" value="20"> -->
-                <br />
-                <i>Italic</i> font indicates that only the choice of word is recorded, not a phonetic
-                transcription.
-                <br />
-                <input type="checkbox" class="lasid-checkbox" style="width: 20px; height: 20px"
-                    onClick="toggleSimplified()"></input>
-                Simplified view
-                <br />
-                <input type="checkbox" class="lasid-checkbox" style="width: 20px; height: 20px"
-                    onClick="toggleWords()"></input>
-                Show words instead of phonetic transcriptions
-                <br />
-                <button class="lasid-button" onclick="displayPointInfo()">Display Points Info</button>
+        <div class="main-sidebar-plus-tab">
+            <div class="main-sidebar" style="padding: 20px">
+                <h1 style="padding: 5px">LASID viewer</h1>
+                <h3 id="currentMapTitle"></h3>
+                <div>
+                    <span style="color:#7fbf7f">●</span> Living dialect
+                    <br />
+                    <span style="color:#bfbf7f">●</span> Dead dialect (LASID)<br />
+                    <span style="color:#bf7f7f">●</span> Dead dialect (other sources)
+                    <br />
+                    <input type="checkbox" class="lasid-checkbox" style="width: 20px; height: 20px"
+                        onClick="toggleSimplified()"></input>
+                    Simplified view
+                    <br />
+                    <input type="checkbox" class="lasid-checkbox" style="width: 20px; height: 20px"
+                        onClick="toggleWords()"></input>
+                    Show words instead of phonetic transcriptions
+                    <br />
+                    <button class="lasid-button" onclick="displayPointInfo()">Display Points Info</button>
 
 
+                </div>
+                <br />
             </div>
-            <!-- <button onClick="changeMap(-1)">&lt;-</button>
-            <button onClick="changeMap(1)">-></button>
-            <button onCLick="updateMap(0)">load</button> -->
-            <br />
-
         </div>
         <div class="main-window">
-            <div id="map" style="height: 900px; width: 100%"></div>
-            <!-- <svg class="main-map" id="main-map" height="710" width="610">
-                <image height="630" width="400" href="images/gaeldom-counties-map-small.png"></image>
-                <circle cx="50" cy="50" fill="green" r="10"></circle> -->
-            <!-- </svg> -->
+            <div class="main-sidebar-button" onclick="toggleLeftSidebar()">
+                &lt;
+            </div>
+            <div id="map" style="height: 80em; width: 100%"></div>
         </div>
         <div class="lasid-right-sidebar">
             <div class="pane-tabs">
                 <div class="pane-tab pane-tab-selected" id="mapsTab" onClick="changePane('maps')">Maps</div>
-                <div class="pane-tab" id="transcriptionsTab" onClick="changePane('transcriptions')">Transcriptions</div>
+                <div class="pane-tab" id="transcriptionsTab" onClick="changePane('transcriptions')">Transcriptions
+                </div>
             </div>
             <div class="lasid-pane" id="mapsPane">
                 <div class="lasid-search-bar">

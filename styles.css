@@ -133,8 +133,28 @@ button {
     height: 100%;
 }
 
+.main-sidebar-plus-tab {
+    width: 40%;
+    word-wrap: normal;
+    display: flex;
+}
+
 .main-sidebar {
-    width: 25%;
+    padding: 0px 20px;
+    width: 100%;
+}
+
+.main-sidebar-button {
+    vertical-align: middle;
+    margin-top: 40%;
+    height: 1%;
+    position: fixed;
+    margin-left: 0.5%;
+    margin-top: 20%;
+    z-index: 9999;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .main-window {
@@ -219,6 +239,7 @@ td:nth-child(2) {
     width: 50px;
     margin: 5px;
 }
+
 input {
     border-radius: 5px;
     border-width: 2px;
